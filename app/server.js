@@ -43,16 +43,7 @@ app.get('/users', function (req, res) {
 	  else 
 	{
 		res.writeHead(200, {'Content-Type': 'application/json'}); // Sending data via json
-		//str='[';
-		str='';
-		users.forEach( function(user) {
-			//console.log(user);
-			//str = str + '{ "name" : "' + user.firstName + user.lastName + '"},' +'\n';
-			//
-		});
-		str = str.trim();
-		str = str.substring(0,str.length-1);
-		str = str + ']';
+		
 		res.end( JSON.stringify(users));
                 // Prepared the jSon Array here
 	}
