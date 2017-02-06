@@ -11,15 +11,17 @@ controller('authCtrl',['$scope',function($scope){
 	
 	 $scope.user = {};
 	
-	$scope.login = function(event){
-		var user = $scope.user.email;
+	$scope.login = function(e){
+		e.preventDefault();
+		console.log("inside scope.login function");
+		var username = $scope.user.email;
 		var pword = $scope.user.password;
-		console.log(user);
-			console.log(password);
+		console.log(username);
+			console.log(pword);
 		
-		if(user === 'admin' && pword === 'admin'){
-			console.log(user);
-			console.log(password);
+		if(username === 'admin' && pword === 'admin'){
+			console.log(username);
+			console.log(pword);
 			$scope.resp = "login successfull";
 		}
 	}
