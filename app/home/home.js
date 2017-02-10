@@ -16,13 +16,13 @@ controller('authCtrl',['$scope',function($scope){
 		console.log("inside scope.login function");
 		var username = $scope.user.email;
 		var pword = $scope.user.password;
-		console.log(username);
-			console.log(pword);
-		
-		if(username === 'admin' && pword === 'admin'){
+			
+		if(username === 'admin@blogapp.com' && pword === 'admin'){
 			console.log(username);
 			console.log(pword);
 			$scope.resp = "login successfull";
+			$scope.user.email = "";
+			$scope.user.password = "";
 		}
 	}
 	
