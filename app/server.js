@@ -11,6 +11,7 @@ var application_root = __dirname,
 var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('./config'); // get our config file
 var User   = require('./models/User'); // get our mongoose model
+var Post = require('./models/Post');
 var morgan = require('morgan');
 	
 var app = express();
@@ -24,7 +25,6 @@ app.use(morgan('dev'));
 	app.set('views', path.join(__dirname, 'views'));
     app.use(bodyParser.json());                        
     app.use(bodyParser.urlencoded({ extended: true }));
-	//app.use(app.router);
 	app.use(methodOverride());
 	app.use(express.static(path.join(application_root, "public")));
 	//app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
@@ -139,6 +139,31 @@ routes.get('/users',function(req,res){
 		res.json(users);
 	});
 });
+
+routes.post('/createPost',function(req,res){
+	var createPost = new Post({
+		title : req.body.title,
+		description : req.body.description,
+		author : req.body.author,
+		content : req.body.content,
+		likes : 0,
+		createdTime : req.body.createdTime,
+		tags : req.body.tags,
+		isActive : true,
+	});
+	
+	createPost.save(function(err){
+		if(err) throw err;
+		res.json({success:true,message:'post successfully created and saved in DB'});
+	});
+});
+
+routes.get('/getAllPosts',function(req,res){
+	Post.find({},function(err,posts){
+		res.json(posts);
+	});
+});
+
 
 app.use('/api/v1.0', routes);
 
