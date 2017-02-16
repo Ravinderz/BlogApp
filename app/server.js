@@ -212,6 +212,25 @@ routes.post('/post/addComment/:postId',function(req,res){
 	});
 });
 
+routes.post('/post/likePost/:postId',function(req,res){
+	Post.find({'_id':req.params.postId},function(err,postDoc){
+			if(err) throw err;
+			if(!postDoc){
+				res.json({success:false,message:'Post with id : '+req.params.postId+' could not be found'});
+			}else{
+				Post.update(
+					{'_id':req.params.postId},
+					{$inc:{"likes":1}},
+					{upsert:false},
+					function(err,doc){
+						if(err) throw err;
+						return res.json({success:true,message:'post liked successfully',doc:doc});
+					}
+				);
+			}
+	});
+});
+
 routes.post('/post/likeComment/:commentId',function(req,res){
 	Post.find({'comments._id':req.params.commentId},{'comments.$':1},function(err,commentDoc){
 			if(err) throw err;
@@ -224,7 +243,7 @@ routes.post('/post/likeComment/:commentId',function(req,res){
 					{upsert:false},
 					function(err,doc){
 						if(err) throw err;
-						return res.json({success:true,message:'comment added successfully',doc:doc});
+						return res.json({success:true,message:'comment liked successfully',doc:doc});
 					}
 				);
 			}
