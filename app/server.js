@@ -12,6 +12,7 @@ var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('./config'); // get our config file
 var User   = require('./models/User'); // get our mongoose model
 var Post = require('./models/Post');
+var Comment = require('./models/Comment');
 var morgan = require('morgan');
 	
 var app = express();
@@ -140,14 +141,14 @@ routes.get('/users',function(req,res){
 	});
 });
 
-routes.post('/createPost',function(req,res){
+routes.post('/post/createPost',function(req,res){
 	var createPost = new Post({
 		title : req.body.title,
 		description : req.body.description,
 		author : req.body.author,
 		content : req.body.content,
 		likes : 0,
-		createdTime : req.body.createdTime,
+		createdTime : Date.now,
 		tags : req.body.tags,
 		isActive : true,
 	});
@@ -158,9 +159,75 @@ routes.post('/createPost',function(req,res){
 	});
 });
 
-routes.get('/getAllPosts',function(req,res){
+routes.get('/post/getAllPosts',function(req,res){
 	Post.find({},function(err,posts){
 		res.json(posts);
+	});
+});
+
+routes.post('/post/editPost/:postId',function(req,res){
+	Post.find({_id : req.params.postId},function(err,editPost){
+		if(err) throw err;
+		
+		if(!editPost){
+			res.json({success:false,message : 'Post with id : '+req.params.postId+' could not be found'});
+		}else{
+			Post.update(
+				{"_id" : req.params.postId},
+				{
+					content : req.body.content,
+					description : req.body.description,
+					$push : {tags: {$each : req.body.tags}},
+					updatedTime : Date.now,
+
+					
+				},
+				{upsert:false},
+				function(err,doc){
+					if(err) throw err;
+					return res.json({success:true,message:'post updated successfully'});
+				}
+			);
+		}
+		
+	});
+});
+
+routes.post('/post/addComment/:postId',function(req,res){
+	Post.find({_id:req.params.postId},function(err,postDoc){
+			if(err) throw err;
+			if(!postDoc){
+				res.json({success:false,message:'Post with id : '+req.params.postId+' could not be found'});
+			}else{
+				Post.update(
+					{"_id":req.params.postId},
+					{$push : {comments : {$each:req.body.comments}}},
+					{upsert:false},
+					function(err,doc){
+						if(err) throw err;
+						return res.json({success:true,message:'comment added successfully',doc:doc});
+					}
+				);
+			}
+	});
+});
+
+routes.post('/post/likeComment/:commentId',function(req,res){
+	Post.find({'comments._id':req.params.commentId},{'comments.$':1},function(err,commentDoc){
+			if(err) throw err;
+			if(!commentDoc){
+				res.json({success:false,message:'Comment with id : '+req.params.commentId+' could not be found'});
+			}else{
+				Post.update(
+					{'comments._id':req.params.commentId},
+					{$inc:{"comments.$.likes":1}},
+					{upsert:false},
+					function(err,doc){
+						if(err) throw err;
+						return res.json({success:true,message:'comment added successfully',doc:doc});
+					}
+				);
+			}
 	});
 });
 

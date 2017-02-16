@@ -10,7 +10,7 @@
 	"express" : "~4.10.0",
 	"stormpath" : "~0.7.5",
 	"express-stormpath" : "~0.5.9",
-	"mongodb" : "~2.2.19",
+	"mongodb" : "latest",
 	"mongoose" : "~4.4",
 	"mongojs" : "latest",
 	"method-override" : "latest",
