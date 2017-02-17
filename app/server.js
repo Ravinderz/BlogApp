@@ -133,6 +133,7 @@ routes.use(function(req,res,next){
 	
 });
 
+/* All the routes under this comment will need a access token to perform the required action*/
 
 //find all users from DB
 routes.get('/users',function(req,res){
@@ -141,30 +142,46 @@ routes.get('/users',function(req,res){
 	});
 });
 
-routes.post('/post/createPost',function(req,res){
-	var createPost = new Post({
-		title : req.body.title,
-		description : req.body.description,
-		author : req.body.author,
-		content : req.body.content,
-		likes : 0,
-		createdTime : Date.now,
-		tags : req.body.tags,
-		isActive : true,
-	});
-	
-	createPost.save(function(err){
-		if(err) throw err;
-		res.json({success:true,message:'post successfully created and saved in DB'});
-	});
-});
-
+// to get all the posts till date
 routes.get('/post/getAllPosts',function(req,res){
 	Post.find({},function(err,posts){
 		res.json(posts);
 	});
 });
 
+//to create a post
+routes.post('/post/createPost',function(req,res){
+	console.log(req.body);
+	var createPost = new Post({
+		title : req.body.title,
+		description : req.body.description,
+		author : req.body.author,
+		content : req.body.content,
+		likes : 0,
+		createdTime : Date.now(),
+		updatedTime : Date.now(),
+		tags : req.body.tags,
+		isActive : true,
+	});
+	
+	console.log(createPost);
+
+	createPost.save(function(err){
+		if(err) {
+			console.log('Error Inserting New Data');
+			if (err.name == 'ValidationError') {
+				for (field in err.errors) {
+				console.log(err.errors[field].message); 
+				}
+			}
+		}
+			//throw err;}
+		res.json({success:true,message:'post successfully created and saved in DB'});
+	});
+});
+
+
+//to edit a post using postId
 routes.post('/post/editPost/:postId',function(req,res){
 	Post.find({_id : req.params.postId},function(err,editPost){
 		if(err) throw err;
@@ -178,7 +195,7 @@ routes.post('/post/editPost/:postId',function(req,res){
 					content : req.body.content,
 					description : req.body.description,
 					$push : {tags: {$each : req.body.tags}},
-					updatedTime : Date.now,
+					updatedTime : Date.now(),
 
 					
 				},
@@ -193,6 +210,7 @@ routes.post('/post/editPost/:postId',function(req,res){
 	});
 });
 
+//to add comment to a already existing post
 routes.post('/post/addComment/:postId',function(req,res){
 	Post.find({_id:req.params.postId},function(err,postDoc){
 			if(err) throw err;
@@ -212,6 +230,7 @@ routes.post('/post/addComment/:postId',function(req,res){
 	});
 });
 
+//to like a post
 routes.post('/post/likePost/:postId',function(req,res){
 	Post.find({'_id':req.params.postId},function(err,postDoc){
 			if(err) throw err;
@@ -231,6 +250,7 @@ routes.post('/post/likePost/:postId',function(req,res){
 	});
 });
 
+//to like a comment
 routes.post('/post/likeComment/:commentId',function(req,res){
 	Post.find({'comments._id':req.params.commentId},{'comments.$':1},function(err,commentDoc){
 			if(err) throw err;
@@ -248,6 +268,24 @@ routes.post('/post/likeComment/:commentId',function(req,res){
 				);
 			}
 	});
+});
+
+routes.post('/post/deleteComment/:postId/:commentId',function(req,res){
+	Post.find({'comments._id':req.params.commentId},{'comments.$':1},function(err,commentDoc){
+			if(err) throw err;
+			if(!commentDoc){
+				res.json({success:false,message:'Comment with id : '+req.params.commentId+' could not be found'});
+			}else{
+				//res.json(commentDoc);
+				console.log(commentDoc);
+				Post.update(
+				{'_id':req.params.postId},
+				{$pull: 
+				{comments: {'_id':req.params.commentId}}}
+				);
+			}
+	});
+	
 });
 
 

@@ -7,15 +7,15 @@ module.exports = mongoose.model('post', new Schema({
 	author : String,
 	content : String,
 	likes : Number,
-	createdTime : {type : Date},
-	updatedTime : {type : Date, default: Date.now},
+	createdTime : {type : Date,default: Date.now()},
+	updatedTime : {type : Date, default: Date.now()},
 	tags : [String],
-	isActive : Boolean,
+	isActive : {type:Boolean,default:true},
 	
 	comments :[{comment : String,
 				commentBy : String,
 				likes: {type:Number,default:0},
 				isActive : {type:Boolean,default:true},
-				time : {type:Date,default : Date.now}
+				time : {type:Date,default : Date.now()}
 			  }]
 }));
