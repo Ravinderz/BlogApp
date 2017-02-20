@@ -145,7 +145,7 @@ routes.get('/users',function(req,res){
 
 // to get all the posts till date
 routes.get('/post/getAllPosts',function(req,res){
-	Post.find({},function(err,posts){
+	Post.find({'isActive':true},function(err,posts){
 		res.json(posts);
 	});
 });
@@ -211,6 +211,42 @@ routes.post('/post/editPost/:postId',function(req,res){
 	});
 });
 
+// to find a post using id
+routes.post('/post/findPostById/:postId',function(req,res){
+	
+	Post.find({'_id': req.params.postId},function(err,postDoc){
+			if(err) throw err;
+			if(!postDoc){
+				res.json({success:false,message:'Comment with id : '+req.params.commentId+' could not be found'});
+			}else{
+				res.json({success:true,doc:postDoc});
+			}
+	});
+	
+});
+
+// to delete a post using ID
+routes.delete('/post/deletePost/:postId',function(req,res){
+	
+	Post.find({'comments._id': req.params.postId},{'isActive':true},function(err,postDoc){
+			if(err) throw err;
+			if(!postDoc){
+				res.json({success:false,message:'Comment with id : '+req.params.commentId+' could not be found'});
+			}else{
+				Post.update(
+					{'_id': req.params.postId},
+					{'isActive':false,
+					updatedTime : Date.now()},
+					function(err,doc){
+						if(err) throw err;
+						return res.json({success:true,message:'comment has been successfully deleted'});
+					}
+				);
+			}
+	});
+	
+});
+
 //to add comment to a already existing post
 routes.post('/post/addComment/:postId',function(req,res){
 	Post.find({_id:req.params.postId},function(err,postDoc){
@@ -220,7 +256,8 @@ routes.post('/post/addComment/:postId',function(req,res){
 			}else{
 				Post.update(
 					{"_id":req.params.postId},
-					{$push : {comments : {$each:req.body.comments}}},
+					{$push : {comments : {$each:req.body.comments}},
+					updatedTime : Date.now()},
 					{upsert:false},
 					function(err,doc){
 						if(err) throw err;
@@ -240,7 +277,8 @@ routes.post('/post/likePost/:postId',function(req,res){
 			}else{
 				Post.update(
 					{'_id':req.params.postId},
-					{$inc:{"likes":1}},
+					{$inc:{"likes":1},
+					updatedTime : Date.now()},
 					{upsert:false},
 					function(err,doc){
 						if(err) throw err;
@@ -260,7 +298,8 @@ routes.post('/post/likeComment/:commentId',function(req,res){
 			}else{
 				Post.update(
 					{'comments._id':req.params.commentId},
-					{$inc:{"comments.$.likes":1}},
+					{$inc:{"comments.$.likes":1},
+					updatedTime : Date.now()},
 					{upsert:false},
 					function(err,doc){
 						if(err) throw err;
@@ -271,6 +310,7 @@ routes.post('/post/likeComment/:commentId',function(req,res){
 	});
 });
 
+// to delete a comment in a post
 routes.delete('/post/deleteComment/:postId/:commentId',function(req,res){
 	
 	Post.find({'comments._id': req.params.commentId},{'comments.$':1},function(err,commentDoc){
@@ -281,7 +321,8 @@ routes.delete('/post/deleteComment/:postId/:commentId',function(req,res){
 				Post.update(
 					{'_id': req.params.postId},
 					{$pull: 
-					{comments: {_id:req.params.commentId}}},
+					{comments: {_id:req.params.commentId}},
+					updatedTime : Date.now()},
 					function(err,doc){
 						if(err) throw err;
 						return res.json({success:true,message:'comment has been successfully deleted'});
@@ -291,6 +332,8 @@ routes.delete('/post/deleteComment/:postId/:commentId',function(req,res){
 	});
 	
 });
+
+
 
 
 
