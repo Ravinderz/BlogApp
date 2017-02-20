@@ -14,10 +14,11 @@ var User   = require('./models/User'); // get our mongoose model
 var Post = require('./models/Post');
 var Comment = require('./models/Comment');
 var morgan = require('morgan');
+var ObjectId = require('mongoose').Types.ObjectId;
 	
 var app = express();
 
-mongoose.connect(config.database); // connect to database
+var db = mongoose.connect(config.database); // connect to database
 app.set('superSecret', config.secret); // secret variable
 
 // use morgan to log requests to the console
@@ -270,23 +271,28 @@ routes.post('/post/likeComment/:commentId',function(req,res){
 	});
 });
 
-routes.post('/post/deleteComment/:postId/:commentId',function(req,res){
-	Post.find({'comments._id':req.params.commentId},{'comments.$':1},function(err,commentDoc){
+routes.delete('/post/deleteComment/:postId/:commentId',function(req,res){
+	
+	Post.find({'comments._id': req.params.commentId},{'comments.$':1},function(err,commentDoc){
 			if(err) throw err;
 			if(!commentDoc){
 				res.json({success:false,message:'Comment with id : '+req.params.commentId+' could not be found'});
 			}else{
-				//res.json(commentDoc);
-				console.log(commentDoc);
 				Post.update(
-				{'_id':req.params.postId},
-				{$pull: 
-				{comments: {'_id':req.params.commentId}}}
+					{'_id': req.params.postId},
+					{$pull: 
+					{comments: {_id:req.params.commentId}}},
+					function(err,doc){
+						if(err) throw err;
+						return res.json({success:true,message:'comment has been successfully deleted'});
+					}
 				);
 			}
 	});
 	
 });
+
+
 
 
 app.use('/api/v1.0', routes);
