@@ -23,7 +23,7 @@ app.set('superSecret', config.secret); // secret variable
 
 // use morgan to log requests to the console
 app.use(morgan('dev'));
-	app.set('port', process.env.PORT || 3000);
+	app.set('port', process.env.PORT || 2017);
 	app.set('views', path.join(__dirname, 'views'));
     app.use(bodyParser.json());                        
     app.use(bodyParser.urlencoded({ extended: true }));
@@ -72,6 +72,7 @@ routes.post('/authenticate',function(req,res){
 		}else if(user){
 			
 			 // check if password matches
+			 console.log(user.email);
 			if(user.password != req.body.password){
 			res.json({success:false, message : 'Authentication failed! invalid username and password'});
 			}else{
@@ -146,6 +147,22 @@ routes.get('/users',function(req,res){
 // to get all the posts till date
 routes.get('/post/getAllPosts',function(req,res){
 	Post.find({'isActive':true},function(err,posts){
+		res.json(posts);
+	});
+});
+
+//to get 10 recent posts
+routes.get('/post/getRecentTenPost',function(req,res){
+	Post.find({'isActive':true}).limit(10).sort({_id:-1}).exec(function(err,posts){
+		console.log(posts);
+		res.json(posts);
+	});
+});
+
+//to get top 10 posts
+routes.get('/post/getTopTenPosts',function(req,res){
+	Post.find({'isActive':true}).limit(10).sort({likes:-1}).exec(function(err,posts){
+		console.log(posts);
 		res.json(posts);
 	});
 });
