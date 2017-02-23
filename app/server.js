@@ -117,6 +117,29 @@ routes.post('/register',function(req,res){
 	});
 });
 
+// to get all the posts till date
+routes.get('/post/getAllPosts',function(req,res){
+	Post.find({'isActive':true},function(err,posts){
+		res.json(posts);
+	});
+});
+
+//to get 10 recent posts
+routes.get('/post/getRecentTenPost',function(req,res){
+	Post.find({'isActive':true}).limit(10).sort({_id:-1}).exec(function(err,posts){
+		console.log(posts);
+		res.json(posts);
+	});
+});
+
+//to get top 10 posts
+routes.get('/post/getTopTenPosts',function(req,res){
+	Post.find({'isActive':true}).limit(10).sort({likes:-1}).exec(function(err,posts){
+		console.log(posts);
+		res.json(posts);
+	});
+});
+
 
 // route middleware to verify a token
 routes.use(function(req,res,next){
@@ -151,28 +174,7 @@ routes.get('/users',function(req,res){
 	});
 });
 
-// to get all the posts till date
-routes.get('/post/getAllPosts',function(req,res){
-	Post.find({'isActive':true},function(err,posts){
-		res.json(posts);
-	});
-});
 
-//to get 10 recent posts
-routes.get('/post/getRecentTenPost',function(req,res){
-	Post.find({'isActive':true}).limit(10).sort({_id:-1}).exec(function(err,posts){
-		console.log(posts);
-		res.json(posts);
-	});
-});
-
-//to get top 10 posts
-routes.get('/post/getTopTenPosts',function(req,res){
-	Post.find({'isActive':true}).limit(10).sort({likes:-1}).exec(function(err,posts){
-		console.log(posts);
-		res.json(posts);
-	});
-});
 
 //to create a post
 routes.post('/post/createPost',function(req,res){

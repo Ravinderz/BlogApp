@@ -4,13 +4,24 @@ angular.module('myApp.home',['ngRoute']).
 config(['$routeProvider',function($routeProvider){
 	$routeProvider.when('/home',{
 		templateUrl: 'home/home.html',
-		controller: 'authCtrl'
+		controller: 'homeCtrl'
 	});
 }]).
-controller('authCtrl',['$scope','$http',function($scope,$http){
+controller('homeCtrl',['$scope','$http',function($scope,$http){
 	
-	 $scope.user = {};
+	 $scope.posts = {};
+	 
+	 $http({
+			method: "GET",
+			url : "http://localhost:2017/api/v1.0/post/getAllPosts",
+			header:{
+				'Content-Type':'application/json'
+			}
+		}).then(function(response){
+			console.log(response);
+		});
 	
+		
 	$scope.login = function(e){
 		e.preventDefault();
 		console.log("inside scope.login function");
@@ -26,14 +37,9 @@ controller('authCtrl',['$scope','$http',function($scope,$http){
 			}
 		}).then(function(response){
 			$scope.resp = "login successfull";
-		})
-		/*if(username === 'admin@blogapp.com' && pword === 'admin'){
-			console.log(username);
-			console.log(pword);
-			$scope.resp = "login successfull";
 			$scope.user.email = "";
 			$scope.user.password = "";
-		}*/
+		});
 	}
 	
 }]);

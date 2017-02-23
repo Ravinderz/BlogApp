@@ -1,0 +1,32 @@
+.navbar-default {
+    background-color: transparent; 
+    border-color: transparent;
+}
+
+#navbar{
+	   border-bottom: 1px solid rgba(0,0,0,.0785);
+	border-color: #e7e7e7;
+}
+
+.navbar{
+	margin-bottom:0;
+}
+
+.sub-navbar-nav{
+	line-height:15px;
+}
+
+.sub-navbar-nav  li a{
+	padding-left:10px;
+	padding-right:10px;
+}
+
+#sub-navbar{
+	padding-left:0;
+	padding-right:0;
+	box-shadow: 0 2px 2px -2px rgba(0,0,0,.15);
+}
+
+.sub-navbar-bar{
+	border-bottom: 1px solid rgba(0,0,0,.0785);
+}

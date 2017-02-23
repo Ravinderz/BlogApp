@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+ 
+    <title>BlogApp using MEAN stack</title>
+ 
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+	
+    <link href="justified-nav.css" rel="stylesheet">
+	<link href="home.css" rel="stylesheet">
+	
+</head>
+ 
+<body ng-controller="authCtrl">
+
+		<!-- Nav bar for the application... later will be placed inside a seperate html page to include in index file-->
+	 <nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">BlogApp</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../navbar/">Sign in</a></li>
+            <li><a href="./">Register<span class="sr-only">(current)</span></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+	<!--nav bar ends -->
+	<!--sub nav bar starts -->
+	<nav class="navbar navbar-default sub-navbar-bar">
+      <div class="container">
+        <div id="sub-navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav sub-navbar-nav">
+            <li><a href="../navbar/" style="padding-left:0;">Home</a></li>
+            <li><a href="./">Top Ten</a></li>
+			<li><a href="../navbar/">Most Liked</a></li>
+            <li><a href="./">Technology<span class="sr-only">(current)</span></a></li>
+			<li><a href="../navbar/">Education</a></li>
+            <li><a href="./">Nature<span class="sr-only">(current)</span></a></li>
+			<li><a href="../navbar/">Culture</a></li>
+            <li><a href="./">Entertainment<span class="sr-only">(current)</span></a></li>
+			<li><a href="./">Gaming<span class="sr-only">(current)</span></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+</body>
+</html>
