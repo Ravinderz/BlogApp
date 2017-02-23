@@ -7,23 +7,33 @@ config(['$routeProvider',function($routeProvider){
 		controller: 'authCtrl'
 	});
 }]).
-controller('authCtrl',['$scope',function($scope){
+controller('authCtrl',['$scope','$http',function($scope,$http){
 	
 	 $scope.user = {};
 	
 	$scope.login = function(e){
 		e.preventDefault();
 		console.log("inside scope.login function");
-		var username = $scope.user.email;
-		var pword = $scope.user.password;
-			
-		if(username === 'admin@blogapp.com' && pword === 'admin'){
+		var email = $scope.user.email;
+		var password = $scope.user.password;
+		console.log($scope.user);
+		$http({
+			method: "POST",
+			url : "http://localhost:2017/api/v1.0/authenticate",
+			data : angular.toJson($scope.user),
+			header : {
+				'Content-Type' : 'application/json'
+			}
+		}).then(function(response){
+			$scope.resp = "login successfull";
+		})
+		/*if(username === 'admin@blogapp.com' && pword === 'admin'){
 			console.log(username);
 			console.log(pword);
 			$scope.resp = "login successfull";
 			$scope.user.email = "";
 			$scope.user.password = "";
-		}
+		}*/
 	}
 	
 }]);

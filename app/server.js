@@ -29,6 +29,7 @@ app.use(morgan('dev'));
     app.use(bodyParser.urlencoded({ extended: true }));
 	app.use(methodOverride());
 	app.use(express.static(path.join(application_root, "public")));
+	app.use(express.static('app'));
 	//app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 	
 	
@@ -36,6 +37,12 @@ app.use(morgan('dev'));
 
 // get an instance of the router for api routes	
 var routes = express.Router();
+
+/*app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});*/
 
 //test api 
 routes.get('/test', function (req, res) {
@@ -356,6 +363,10 @@ routes.delete('/post/deleteComment/:postId/:commentId',function(req,res){
 
 
 app.use('/api/v1.0', routes);
+
+app.get('*',function(req,res){
+	res.sendFile('index.html',{root:__dirname});
+})
 
 http.createServer(app).listen(app.get('port'), function () {
    console.log('myApp server listening on port ' + app.get('port'));
