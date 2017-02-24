@@ -10,7 +10,7 @@
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
 	
     <link href="justified-nav.css" rel="stylesheet">
-	<link href="home.css" rel="stylesheet">
+	<link href="home/home.css" rel="stylesheet">
 	
 </head>
  
@@ -55,5 +55,48 @@
         </div><!--/.nav-collapse -->
       </div>
     </nav>
+	
+	<div class="posts-container">
+		<div class="left-container-div col-md-8">
+			<div class="post-div" ng-repeat="post in posts">
+				<h3>{{post.title}}</h3>
+				<p>{{post.description}}</p>
+				<p><i>read more . . .</i></p>
+				<div class="post-details">
+					<div class="tag-div float-left">
+						<ul>
+							<li ng-repeat="tag in post.tags">{{tag}}</li>
+						</ul>
+					</div>
+					<div class="author-details float-right">
+						<img class="img-circle float-left" src="http://placehold.it/50x50">
+						<p>{{post.author}}</p>
+						<p>{{post.createdTime | date:'medium'}}</p>
+					</div>
+					<div class="clear-fix"></div>
+				</div>
+			</div>
+		</div>
+		<div class="right-container-div col-md-4">
+			<div class="right-sub-container-div">
+				<p class="recent-post-heading">Recent posts</p>
+				<ul class="recent-post-ul">
+					<li>First title</li>
+					<li>Second title</li>
+					<li>Third title</li>
+					<li>Four title</li>
+					<li>Five title</li>
+					<li>Six title</li>
+					<li>Seven title</li>
+					<li>Eight title</li>
+					<li>Nine title</li>
+					<li>Ten title</li>
+				</ul>
+			</div>
+		</div>
+		
+	<div>
+		
+	</div>
 </body>
 </html>

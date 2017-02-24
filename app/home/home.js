@@ -3,7 +3,7 @@
 angular.module('myApp.home',['ngRoute']).
 config(['$routeProvider',function($routeProvider){
 	$routeProvider.when('/home',{
-		templateUrl: 'home/home.html',
+		templateUrl: 'home/home_new.html',
 		controller: 'homeCtrl'
 	});
 }]).
@@ -18,7 +18,8 @@ controller('homeCtrl',['$scope','$http',function($scope,$http){
 				'Content-Type':'application/json'
 			}
 		}).then(function(response){
-			console.log(response);
+			$scope.posts = response.data;
+			console.log(response.data);
 		});
 	
 		

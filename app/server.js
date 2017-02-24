@@ -28,7 +28,7 @@ app.use(morgan('dev'));
     app.use(bodyParser.json());                        
     app.use(bodyParser.urlencoded({ extended: true }));
 	app.use(methodOverride());
-	app.use(express.static(path.join(application_root, "public")));
+	app.use(express.static(path.join(application_root, "app")));
 	app.use(express.static('app'));
 	//app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 	
