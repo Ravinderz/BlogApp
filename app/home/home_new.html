@@ -14,7 +14,7 @@
 	
 </head>
  
-<body ng-controller="authCtrl">
+<body ng-controller="homeCtrl">
 
 		<!-- Nav bar for the application... later will be placed inside a seperate html page to include in index file-->
 	 <nav class="navbar navbar-default navbar-static-top">
@@ -30,13 +30,50 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="../navbar/">Sign in</a></li>
+		  <div class="modal-div" ng-controller="loginCtrl">
+			<script type="text/ng-template" id="myModalContent.html">
+				<div class="loginmodal-container">
+					<h1>Login to Your Account</h1><br>
+				  <form>
+					<input ng-model="user.email" type="text" class="form-control" placeholder="Email address" required="" autofocus="">
+					<input ng-model="user.password" type="password" class="form-control" placeholder="Password" required="">
+					<input type="button" name="login" class="login loginmodal-submit" ng-click="login($event)" value="Login">
+				  </form>
+					
+				  <div class="login-help">
+					<a href="#">Register</a> - <a href="#">Forgot Password</a>
+				  </div>
+			  </div>
+			</script>
+				<li><a ng-click="open()">Sign in</a></li>
+			</div>	
+            
             <li><a href="./">Register<span class="sr-only">(current)</span></a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 	<!--nav bar ends -->
+<!--code for login modal -->
+
+
+<!--<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    	  <div class="modal-dialog">
+				<div class="loginmodal-container">
+					<h1>Login to Your Account</h1><br>
+				  <form>
+					<input type="text" name="user" placeholder="Username">
+					<input type="password" name="pass" placeholder="Password">
+					<input type="button" name="login" class="login loginmodal-submit" value="Login">
+				  </form>
+					
+				  <div class="login-help">
+					<a href="#">Register</a> - <a href="#">Forgot Password</a>
+				  </div>
+				</div>
+			</div>
+		  </div>
+<!--login modal ends-->
 	<!--sub nav bar starts -->
 	<nav class="navbar navbar-default sub-navbar-bar">
       <div class="container">

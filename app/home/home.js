@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.home',['ngRoute']).
+angular.module('myApp.home',['ngRoute','ui.bootstrap']).
 config(['$routeProvider',function($routeProvider){
 	$routeProvider.when('/home',{
 		templateUrl: 'home/home_new.html',
@@ -43,4 +43,47 @@ controller('homeCtrl',['$scope','$http',function($scope,$http){
 		});
 	}
 	
+}]).controller('loginCtrl',['$scope','$http','$uibModal',function($scope,$http,$uibModal){
+	
+	$scope.open = function() {
+	console.log("inside loginCtrl method");
+    var modalInstance = $uibModal.open({
+      animation: $scope.animationsEnabled,
+      templateUrl: 'myModalContent.html',
+      controller: 'ModalInstanceCtrl',
+	  resolve: {}
+    });
+
+    modalInstance.result.then(function() {
+     console.log("modal opened")
+    });
+	
+	$scope.login = function(e){
+		e.preventDefault();
+		console.log("inside scope.login function");
+		var email = $scope.user.email;
+		var password = $scope.user.password;
+		console.log($scope.user);
+		$http({
+			method: "POST",
+			url : "http://localhost:2017/api/v1.0/authenticate",
+			data : angular.toJson($scope.user),
+			header : {
+				'Content-Type' : 'application/json'
+			}
+		}).then(function(response){
+			$scope.resp = "login successfull";
+			$scope.user.email = "";
+			$scope.user.password = "";
+		});
+	}
+  };
+  
+  
+	
+}]).controller('ModalInstanceCtrl',['$scope', function($scope, $modalInstance) {
+
+  $scope.cancel = function() {
+    $modalInstance.dismiss('cancel');
+  };
 }]);
