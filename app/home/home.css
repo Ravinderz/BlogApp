@@ -219,3 +219,57 @@
 }
 
 /*css for login modal ends here*/
+
+.img-dropdown{
+	padding:0;
+	padding-bottom: 3px;
+	border-color:transparent;
+}
+
+.img-dropdown:hover{
+
+	background-color: transparent;
+    border-color: transparent;
+}
+
+.img-dropdown:active{
+	
+	background-color: transparent;
+    border-color: transparent;
+	box-shadow:none;
+}
+
+.img-dropdown:active:hover{
+	
+	background-color: transparent;
+    border-color: transparent;
+	box-shadow:none;
+}
+
+.img-dropdown:active:focus{
+	
+	background-color: transparent;
+    border-color: transparent;
+	box-shadow:none;
+	outline:none;
+}
+
+.img-dropdown:focus{
+	
+	background-color: transparent;
+    border-color: transparent;
+	box-shadow:none;
+}
+
+.img-dropdown:visited{
+	
+	background-color: transparent;
+    border-color: transparent;
+	box-shadow:none;
+}
+
+.caret{
+	margin-top: 23px;
+    margin-left: 3px;
+}
+

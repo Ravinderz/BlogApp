@@ -11,7 +11,7 @@ controller('homeCtrl',['$rootScope','$scope','$http',function($rootScope,$scope,
 	
 	 $scope.posts = {};
 	 $rootScope.isLogged = false;
-	 $rootScope.username = "";
+	 $rootScope.user = {};
 	 
 	 $http({
 			method: "GET",
@@ -59,9 +59,6 @@ controller('homeCtrl',['$rootScope','$scope','$http',function($rootScope,$scope,
   $scope.login = function(e){
 		e.preventDefault();
 		console.log("inside scope.login function");
-		var email = $scope.user.email;
-		var password = $scope.user.password;
-		console.log($scope.user);
 		$http({
 			method: "POST",
 			url : "http://localhost:2017/api/v1.0/authenticate",
@@ -70,9 +67,11 @@ controller('homeCtrl',['$rootScope','$scope','$http',function($rootScope,$scope,
 				'Content-Type' : 'application/json'
 			}
 		}).then(function(response){
-			console.log(response.data.obj);
+			$rootScope.user = response.data.obj;
+			console.log($rootScope.user);
 			$rootScope.isLogged = true;
-			$rootScope.username = response.data.obj.firstName+" "+response.data.obj.lastName; 
+			$rootScope.user.username = response.data.obj.firstName+" "+response.data.obj.lastName; 
+			console.log($rootScope.user);
 			$scope.resp = "login successfull";
 			
 			$uibModalInstance.close();
@@ -108,14 +107,8 @@ controller('homeCtrl',['$rootScope','$scope','$http',function($rootScope,$scope,
 		controller: 'ModalInstanceCtrl'
 	  })
   }
-  
-  
-	
 }]).controller('RegisterModalInstanceCtrl',['$rootScope','$scope','$http','$uibModalInstance', function($rootScope,$scope,$http,$uibModalInstance) {
 
-   
-		
-    
   $scope.register = function(e){
 		e.preventDefault();
 		console.log("inside scope.register function");
@@ -132,4 +125,13 @@ controller('homeCtrl',['$rootScope','$scope','$http',function($rootScope,$scope,
 			//$uibModalInstance.close();
 		});
 	};
+}]).controller('logoutCtrl',['$rootScope','$scope',function($rootScope,$scope){
+	
+	$scope.logout = function(e){
+		e.preventDefault();
+		console.log("inside logout controller");
+		$rootScope.user = {};
+		$rootScope.isLogged = false;
+	}
+	
 }])
