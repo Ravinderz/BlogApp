@@ -1,5 +1,5 @@
 .navbar-default {
-    background-color: transparent; 
+    background-color: transparent;
     border-color: transparent;
 }
 
@@ -32,19 +32,21 @@
 }
 
 .posts-container{
-	margin-left:133px;
-	margin-right:133px;
-	margin-top:25px;
+	margin-top:10px;
 	margin-bottom:25px;
-	
 }
 
 .left-container-div{
 	border-right: 1px solid rgba(0,0,0,.0785);
-	
+  padding-left:0;
+}
+
+.right-sub-container-div{
+  margin-top:15px;
 }
 
 .post-div{
+  margin-top:15px;
 	margin-right: 10px;
 	padding-bottom:15px;
 	border-bottom: 1px solid rgba(0,0,0,.0785);
@@ -182,7 +184,7 @@
   /* border: 1px solid #3079ed; */
   border: 0px;
   color: #fff;
-  text-shadow: 0 1px rgba(0,0,0,0.1); 
+  text-shadow: 0 1px rgba(0,0,0,0.1);
   background-color: #4d90fe;
   padding: 17px 0px;
   font-family: roboto;
@@ -206,7 +208,7 @@
   display: inline-block;
   opacity: 0.6;
   transition: opacity ease 0.5s;
-} 
+}
 
 .login-help{
   font-size: 12px;
@@ -233,21 +235,21 @@
 }
 
 .img-dropdown:active{
-	
+
 	background-color: transparent;
     border-color: transparent;
 	box-shadow:none;
 }
 
 .img-dropdown:active:hover{
-	
+
 	background-color: transparent;
     border-color: transparent;
 	box-shadow:none;
 }
 
 .img-dropdown:active:focus{
-	
+
 	background-color: transparent;
     border-color: transparent;
 	box-shadow:none;
@@ -255,14 +257,14 @@
 }
 
 .img-dropdown:focus{
-	
+
 	background-color: transparent;
     border-color: transparent;
 	box-shadow:none;
 }
 
 .img-dropdown:visited{
-	
+
 	background-color: transparent;
     border-color: transparent;
 	box-shadow:none;
@@ -272,4 +274,3 @@
 	margin-top: 23px;
     margin-left: 3px;
 }
-

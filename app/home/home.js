@@ -8,11 +8,11 @@ config(['$routeProvider',function($routeProvider){
 	});
 }]).
 controller('homeCtrl',['$rootScope','$scope','$http',function($rootScope,$scope,$http,loginService){
-	
+
 	 $scope.posts = {};
 	 $rootScope.isLogged = false;
 	 $rootScope.user = {};
-	 
+
 	 $http({
 			method: "GET",
 			url : "http://localhost:2017/api/v1.0/post/getAllPosts",
@@ -23,9 +23,9 @@ controller('homeCtrl',['$rootScope','$scope','$http',function($rootScope,$scope,
 			$scope.posts = response.data;
 			console.log(response.data);
 		});
-	
+
 }]).controller('loginCtrl',['$scope','$http','$uibModal',function($scope,$http,$uibModal){
-	
+
 	$scope.open = function() {
 	console.log("inside loginCtrl method");
     var modalInstanceVar = $uibModal.open({
@@ -39,23 +39,23 @@ controller('homeCtrl',['$rootScope','$scope','$http',function($rootScope,$scope,
     modalInstanceVar.result.then(function(e) {
      console.log("modal opened")
     });
-	
+
   };
-  
-  
-	
+
+
+
 }]).controller('ModalInstanceCtrl',['$rootScope','$scope','$http','$uibModalInstance', function($rootScope,$scope,$http,$uibModalInstance) {
 
-   
-		
+
+
   $scope.cancel = function() {
     $uibModalInstance.dismiss('cancel');
   };
-  
+
    $scope.closeModal = function () {
     $uibModalInstance.close();
   };
-  
+
   $scope.login = function(e){
 		e.preventDefault();
 		console.log("inside scope.login function");
@@ -69,18 +69,19 @@ controller('homeCtrl',['$rootScope','$scope','$http',function($rootScope,$scope,
 		}).then(function(response){
 			$rootScope.user = response.data.obj;
 			console.log($rootScope.user);
+			console.log(response);	
 			$rootScope.isLogged = true;
-			$rootScope.user.username = response.data.obj.firstName+" "+response.data.obj.lastName; 
+			$rootScope.user.username = response.data.obj.firstName+" "+response.data.obj.lastName;
 			console.log($rootScope.user);
 			$scope.resp = "login successfull";
-			
+
 			$uibModalInstance.close();
 		});
 	};
 }]).controller('registerCtrl',['$scope','$http','$uibModal',function($scope,$http,$uibModal){
-	
+
 	var regModalInstanceVar= "";
-	
+
 	$scope.openRegisterModal = function() {
 	console.log("inside loginCtrl method");
     regModalInstanceVar = $uibModal.open({
@@ -94,11 +95,11 @@ controller('homeCtrl',['$rootScope','$scope','$http',function($rootScope,$scope,
     regModalInstanceVar.result.then(function(e) {
      console.log("modal opened")
     });
-	
+
 	console.log(regModalInstanceVar);
-	
+
   };
-  
+
   $scope.openLoginModal = function(){
 	  regModalInstanceVar.close();
 	  var loginModalInstance = $uibModal.open({
@@ -126,12 +127,12 @@ controller('homeCtrl',['$rootScope','$scope','$http',function($rootScope,$scope,
 		});
 	};
 }]).controller('logoutCtrl',['$rootScope','$scope',function($rootScope,$scope){
-	
+
 	$scope.logout = function(e){
 		e.preventDefault();
 		console.log("inside logout controller");
 		$rootScope.user = {};
 		$rootScope.isLogged = false;
 	}
-	
+
 }])
