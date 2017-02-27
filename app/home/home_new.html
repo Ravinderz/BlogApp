@@ -28,16 +28,17 @@
           </button>
           <a class="navbar-brand" href="#">BlogApp</a>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
+        <div id="navbar" class="navbar-collapse collapse" ng-if="!isLogged">
           <ul class="nav navbar-nav navbar-right">
+		  <!-- modal for login button-->
 		  <div class="modal-div" ng-controller="loginCtrl">
 			<script type="text/ng-template" id="myModalContent.html">
 				<div class="loginmodal-container">
 					<h1>Login to Your Account</h1><br>
-				  <form>
-					<input ng-model="user.email" type="text" class="form-control" placeholder="Email address" required="" autofocus="">
+				  <form name="login-form">
+					<input ng-model="user.email" type="email" class="form-control" placeholder="Email address" required="" autofocus="">
 					<input ng-model="user.password" type="password" class="form-control" placeholder="Password" required="">
-					<input type="button" name="login" class="login loginmodal-submit" ng-click="login($event)" value="Login">
+					<input type="button" name="login" id="login-button" class="login loginmodal-submit" ng-click="login($event)" value="Login">
 				  </form>
 					
 				  <div class="login-help">
@@ -47,33 +48,41 @@
 			</script>
 				<li><a ng-click="open()">Sign in</a></li>
 			</div>	
-            
-            <li><a href="./">Register<span class="sr-only">(current)</span></a></li>
+          <!-- modal for login button-->
+			
+			<div class="modal-div" ng-controller="registerCtrl">
+			<script type="text/ng-template" id="myRegisterModalContent.html">
+				<div class="loginmodal-container">
+					<h1>Login to Your Account</h1><br>
+				  <form name="register-form">
+					<input ng-model="user.firstName" type="text" class="form-control" placeholder="FirstName" required="" autofocus="">
+					<input ng-model="user.lastName" type="text" class="form-control" placeholder="LastName" required="">
+					<input ng-model="user.email" type="email" class="form-control" placeholder="Email Address" required="">
+					<input ng-model="user.password" type="password" class="form-control" placeholder="Password" required="">
+					<input ng-model="user.phone" type="number" class="form-control" placeholder="Mobile Number" required="">
+					<input type="button" name="login" class="register loginmodal-submit" ng-click="register($event)" value="Register">
+				  </form>
+					<span>{{message}}</span><span ng-if="message" ng-click="openLoginModal($event)"> click here to login</span>
+				  <div class="login-help">
+					Already a member ?<span ng-click="openLoginModal($event)">Login here</span>
+				  </div>
+			  </div>
+			</script>
+				<li><a ng-click="openRegisterModal()">Register</a></li>
+			</div>	
+          </ul>
+        </div><!--/.nav-collapse -->
+		<!-- This will display when a user is logged in -->
+		 <div id="navbar" class="navbar-collapse collapse" ng-if="isLogged">
+          <ul class="nav navbar-nav navbar-right">
+			<li><a href="./">Write Article<span class="sr-only">(current)</span></a></li>
+            <li><a href="./">{{username}}</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 	<!--nav bar ends -->
 <!--code for login modal -->
-
-
-<!--<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-    	  <div class="modal-dialog">
-				<div class="loginmodal-container">
-					<h1>Login to Your Account</h1><br>
-				  <form>
-					<input type="text" name="user" placeholder="Username">
-					<input type="password" name="pass" placeholder="Password">
-					<input type="button" name="login" class="login loginmodal-submit" value="Login">
-				  </form>
-					
-				  <div class="login-help">
-					<a href="#">Register</a> - <a href="#">Forgot Password</a>
-				  </div>
-				</div>
-			</div>
-		  </div>
-<!--login modal ends-->
 	<!--sub nav bar starts -->
 	<nav class="navbar navbar-default sub-navbar-bar">
       <div class="container">
@@ -128,6 +137,7 @@
 					<li>Eight title</li>
 					<li>Nine title</li>
 					<li>Ten title</li>
+					<li>{{isLogged}}</li>
 				</ul>
 			</div>
 		</div>

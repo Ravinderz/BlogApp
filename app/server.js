@@ -94,6 +94,7 @@ routes.post('/authenticate',function(req,res){
 				res.json({
 					success:true,
 					message : 'token generated successfully',
+					obj : user,
 					token : token
 				});
 			}
@@ -112,7 +113,14 @@ routes.post('/register',function(req,res){
 	});
 	
 	newUser.save(function(err){
-		if(err) throw err;
+		if(err) if(err) {
+			console.log('Error Inserting New Data');
+			if (err.name == 'ValidationError') {
+				for (field in err.errors) {
+				console.log(err.errors[field].message); 
+				}
+			}
+		};
 		res.json({success:true, message : 'User registered successfully'});
 	});
 });

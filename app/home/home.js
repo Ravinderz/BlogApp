@@ -7,9 +7,11 @@ config(['$routeProvider',function($routeProvider){
 		controller: 'homeCtrl'
 	});
 }]).
-controller('homeCtrl',['$scope','$http',function($scope,$http){
+controller('homeCtrl',['$rootScope','$scope','$http',function($rootScope,$scope,$http,loginService){
 	
 	 $scope.posts = {};
+	 $rootScope.isLogged = false;
+	 $rootScope.username = "";
 	 
 	 $http({
 			method: "GET",
@@ -22,43 +24,39 @@ controller('homeCtrl',['$scope','$http',function($scope,$http){
 			console.log(response.data);
 		});
 	
-		
-	$scope.login = function(e){
-		e.preventDefault();
-		console.log("inside scope.login function");
-		var email = $scope.user.email;
-		var password = $scope.user.password;
-		console.log($scope.user);
-		$http({
-			method: "POST",
-			url : "http://localhost:2017/api/v1.0/authenticate",
-			data : angular.toJson($scope.user),
-			header : {
-				'Content-Type' : 'application/json'
-			}
-		}).then(function(response){
-			$scope.resp = "login successfull";
-			$scope.user.email = "";
-			$scope.user.password = "";
-		});
-	}
-	
 }]).controller('loginCtrl',['$scope','$http','$uibModal',function($scope,$http,$uibModal){
 	
 	$scope.open = function() {
 	console.log("inside loginCtrl method");
-    var modalInstance = $uibModal.open({
-      animation: $scope.animationsEnabled,
+    var modalInstanceVar = $uibModal.open({
+      animation: true,
       templateUrl: 'myModalContent.html',
       controller: 'ModalInstanceCtrl',
+	  scope: $scope,
 	  resolve: {}
     });
 
-    modalInstance.result.then(function() {
+    modalInstanceVar.result.then(function(e) {
      console.log("modal opened")
     });
 	
-	$scope.login = function(e){
+  };
+  
+  
+	
+}]).controller('ModalInstanceCtrl',['$rootScope','$scope','$http','$uibModalInstance', function($rootScope,$scope,$http,$uibModalInstance) {
+
+   
+		
+  $scope.cancel = function() {
+    $uibModalInstance.dismiss('cancel');
+  };
+  
+   $scope.closeModal = function () {
+    $uibModalInstance.close();
+  };
+  
+  $scope.login = function(e){
 		e.preventDefault();
 		console.log("inside scope.login function");
 		var email = $scope.user.email;
@@ -72,18 +70,66 @@ controller('homeCtrl',['$scope','$http',function($scope,$http){
 				'Content-Type' : 'application/json'
 			}
 		}).then(function(response){
+			console.log(response.data.obj);
+			$rootScope.isLogged = true;
+			$rootScope.username = response.data.obj.firstName+" "+response.data.obj.lastName; 
 			$scope.resp = "login successfull";
-			$scope.user.email = "";
-			$scope.user.password = "";
+			
+			$uibModalInstance.close();
 		});
-	}
+	};
+}]).controller('registerCtrl',['$scope','$http','$uibModal',function($scope,$http,$uibModal){
+	
+	var regModalInstanceVar= "";
+	
+	$scope.openRegisterModal = function() {
+	console.log("inside loginCtrl method");
+    regModalInstanceVar = $uibModal.open({
+      animation: true,
+      templateUrl: 'myRegisterModalContent.html',
+      controller: 'RegisterModalInstanceCtrl',
+	  scope: $scope,
+	  resolve: {}
+    });
+
+    regModalInstanceVar.result.then(function(e) {
+     console.log("modal opened")
+    });
+	
+	console.log(regModalInstanceVar);
+	
   };
+  
+  $scope.openLoginModal = function(){
+	  regModalInstanceVar.close();
+	  var loginModalInstance = $uibModal.open({
+		  animation: true,
+		templateUrl: 'myModalContent.html',
+		controller: 'ModalInstanceCtrl'
+	  })
+  }
   
   
 	
-}]).controller('ModalInstanceCtrl',['$scope', function($scope, $modalInstance) {
+}]).controller('RegisterModalInstanceCtrl',['$rootScope','$scope','$http','$uibModalInstance', function($rootScope,$scope,$http,$uibModalInstance) {
 
-  $scope.cancel = function() {
-    $modalInstance.dismiss('cancel');
-  };
-}]);
+   
+		
+    
+  $scope.register = function(e){
+		e.preventDefault();
+		console.log("inside scope.register function");
+		console.log(angular.toJson($scope.user));
+		$http({
+			method: "POST",
+			url : "http://localhost:2017/api/v1.0/register",
+			data : angular.toJson($scope.user),
+			header : {
+				'Content-Type' : 'application/json'
+			}
+		}).then(function(response){
+			$scope.message = "registration successfull";
+			//$uibModalInstance.close();
+		});
+	};
+}])
