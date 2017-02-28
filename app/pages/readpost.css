@@ -331,6 +331,12 @@
 	margin-bottom:30px;
 }
 
+.comment-div{
+	padding:15px;
+	background:#fafafa!important;
+	border:1px solid rgba(0,0,0,.0785);
+}
+
 .comment-time ul{
 	padding-left:0;
 	margin-top:7px;
@@ -348,12 +354,16 @@
 
 .comment-author-details{
 	margin-bottom:20px;
+	
 }
 
 .comment-author-details p{
 	margin-top:7px;
 	padding-top:14px;
 	margin-bottom:0;
+	color:rgba(25, 96, 168,.9);
+	font-weight: 500;
+    font-size: medium;
 }
 
 .comment-author-details img{
@@ -362,4 +372,14 @@
 
 .comment-content{
 	margin-top:30px;
+}
+
+.like-span{
+	padding: 3px 10px;
+    background-color: rgba(209, 24, 24,.86);
+    color: #fff;
+}
+
+.like-button p{
+	margin-left:10px;
 }

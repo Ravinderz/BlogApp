@@ -91,6 +91,7 @@ controller('homeCtrl',['$rootScope','$scope','$http',function($rootScope,$scope,
 			console.log(response);	
 			$rootScope.isLogged = true;
 			$rootScope.user.username = response.data.obj.firstName+" "+response.data.obj.lastName;
+			$rootScope.user.token = response.data.token;
 			sessionStorage.setItem("user",angular.toJson($rootScope.user));
 			console.log($rootScope.user);
 			$scope.resp = "login successfull";
