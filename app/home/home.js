@@ -10,8 +10,14 @@ config(['$routeProvider',function($routeProvider){
 controller('homeCtrl',['$rootScope','$scope','$http',function($rootScope,$scope,$http,loginService){
 
 	 $scope.posts = {};
+	 $scope.recentPosts = {};
 	 $rootScope.isLogged = false;
 	 $rootScope.user = {};
+	 
+	 if(sessionStorage.getItem("user")){
+		 $rootScope.isLogged = true;
+		 $rootScope.user = angular.fromJson(sessionStorage.getItem("user"));
+	 }
 
 	 $http({
 			method: "GET",
@@ -23,6 +29,19 @@ controller('homeCtrl',['$rootScope','$scope','$http',function($rootScope,$scope,
 			$scope.posts = response.data;
 			console.log(response.data);
 		});
+		
+	 $http({
+			method: "GET",
+			url : "http://localhost:2017/api/v1.0/post/getRecentTenPost",
+			header:{
+				'Content-Type':'application/json'
+			}
+		}).then(function(response){
+			$scope.recentPosts = response.data;
+			console.log(response.data);
+		});	
+		
+		
 
 }]).controller('loginCtrl',['$scope','$http','$uibModal',function($scope,$http,$uibModal){
 
@@ -72,6 +91,7 @@ controller('homeCtrl',['$rootScope','$scope','$http',function($rootScope,$scope,
 			console.log(response);	
 			$rootScope.isLogged = true;
 			$rootScope.user.username = response.data.obj.firstName+" "+response.data.obj.lastName;
+			sessionStorage.setItem("user",angular.toJson($rootScope.user));
 			console.log($rootScope.user);
 			$scope.resp = "login successfull";
 
@@ -135,4 +155,12 @@ controller('homeCtrl',['$rootScope','$scope','$http',function($rootScope,$scope,
 		$rootScope.isLogged = false;
 	}
 
+}]).controller('openPostCtrl',['$scope','$http','$location',function($scope,$http,$location){
+	
+	$scope.openPost = function(id){
+		var postId = id;
+		console.log("postid",postId);
+		$location.path('/readpostbyid').search({pid:postId});
+	}
+	
 }])

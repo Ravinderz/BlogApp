@@ -148,6 +148,40 @@ routes.get('/post/getTopTenPosts',function(req,res){
 	});
 });
 
+// to find a post using id
+routes.post('/post/findPostById/:postId',function(req,res){
+	
+	Post.find({'_id': req.params.postId},function(err,postDoc){
+			if(err) throw err;
+			if(!postDoc){
+				res.json({success:false,message:'Comment with id : '+req.params.commentId+' could not be found'});
+			}else{
+				res.json({success:true,doc:postDoc});
+			}
+	});
+	
+});
+
+//to like a post
+routes.post('/post/likePost/:postId',function(req,res){
+	Post.find({'_id':req.params.postId},function(err,postDoc){
+			if(err) throw err;
+			if(!postDoc){
+				res.json({success:false,message:'Post with id : '+req.params.postId+' could not be found'});
+			}else{
+				Post.findOneAndUpdate(
+					{'_id':req.params.postId},
+					{$inc:{"likes":1},
+					updatedTime : Date.now()},
+					{upsert:false,new:true},
+					function(err,doc){
+						if(err) throw err;
+						return res.json({success:true,message:'post liked successfully',doc:doc});
+					}
+				);
+			}
+	});
+});
 
 // route middleware to verify a token
 routes.use(function(req,res,next){
@@ -245,19 +279,7 @@ routes.post('/post/editPost/:postId',function(req,res){
 	});
 });
 
-// to find a post using id
-routes.post('/post/findPostById/:postId',function(req,res){
-	
-	Post.find({'_id': req.params.postId},function(err,postDoc){
-			if(err) throw err;
-			if(!postDoc){
-				res.json({success:false,message:'Comment with id : '+req.params.commentId+' could not be found'});
-			}else{
-				res.json({success:true,doc:postDoc});
-			}
-	});
-	
-});
+
 
 // to delete a post using ID
 routes.delete('/post/deletePost/:postId',function(req,res){
@@ -302,26 +324,7 @@ routes.post('/post/addComment/:postId',function(req,res){
 	});
 });
 
-//to like a post
-routes.post('/post/likePost/:postId',function(req,res){
-	Post.find({'_id':req.params.postId},function(err,postDoc){
-			if(err) throw err;
-			if(!postDoc){
-				res.json({success:false,message:'Post with id : '+req.params.postId+' could not be found'});
-			}else{
-				Post.update(
-					{'_id':req.params.postId},
-					{$inc:{"likes":1},
-					updatedTime : Date.now()},
-					{upsert:false},
-					function(err,doc){
-						if(err) throw err;
-						return res.json({success:true,message:'post liked successfully',doc:doc});
-					}
-				);
-			}
-	});
-});
+
 
 //to like a comment
 routes.post('/post/likeComment/:commentId',function(req,res){
