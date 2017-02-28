@@ -310,11 +310,11 @@ routes.post('/post/addComment/:postId',function(req,res){
 			if(!postDoc){
 				res.json({success:false,message:'Post with id : '+req.params.postId+' could not be found'});
 			}else{
-				Post.update(
+				Post.findOneAndUpdate(
 					{"_id":req.params.postId},
 					{$push : {comments : {$each:req.body.comments}},
 					updatedTime : Date.now()},
-					{upsert:false},
+					{upsert:false,new:true},
 					function(err,doc){
 						if(err) throw err;
 						return res.json({success:true,message:'comment added successfully',doc:doc});

@@ -10,6 +10,7 @@ config(['$routeProvider',function($routeProvider){
 	
 		$scope.readpost = {};
 		$rootScope.isLogged = false;
+		$rootScope.datenow = Date.now();
 		$rootScope.user = {};
 		var postId = $location.search().pid;
 		console.log("postid in readpost",postId);
@@ -44,6 +45,25 @@ config(['$routeProvider',function($routeProvider){
 			console.log(response.data.doc);		
 		});
 
+	}
+	
+		$scope.submitComment = function(postId){
+		console.log("inside submit comment controller");
+		console.log("post id in submit comment",postId);
+		console.log($scope.commentVar);
+		
+		$http({
+			method: "POST",
+			url : "http://localhost:2017/api/v1.0/post/addComment/"+postId,
+			data : angular.toJson($scope.commentVar),
+			header : {
+				'Content-Type' : 'application/json'
+				'x-access-token': sessionStorage.getItem("user").token;
+			}
+		}).then(function(response){
+			$scope.readpost = response.data.doc;
+			console.log(response.data.doc);
+		});
 	}
 	
 }]).controller('loginCtrl',['$scope','$http','$uibModal',function($scope,$http,$uibModal){
@@ -160,9 +180,5 @@ config(['$routeProvider',function($routeProvider){
 	}
 }]).controller('submitCommentCtrl',['$rootScope','$scope',function($rootScope,$scope){
 
-	$scope.submitComment = function(postId){
-		console.log("inside submit comment controller");
-		console.log("post id in submit comment",postId);
-		console.log($scope.commentVar);
-	}
+	
 }]);
