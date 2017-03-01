@@ -100,7 +100,7 @@
       <div class="container">
         <div id="sub-navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav sub-navbar-nav">
-            <li><a href="../navbar/" style="padding-left:0;">Home</a></li>
+            <li><a href="#/home" style="padding-left:0;">Home</a></li>
             <li><a href="./">Top Ten</a></li>
 			<li><a href="../navbar/">Most Liked</a></li>
             <li><a href="./">Technology<span class="sr-only">(current)</span></a></li>
@@ -135,11 +135,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="right-container-div col-md-4">
+		<div class="right-container-div col-md-4" ng-controller="openPostCtrl">
 			<div class="right-sub-container-div">
 				<p class="recent-post-heading">Recent posts</p>
 				<ul class="recent-post-ul" >
-					<li ng-repeat="recentPost in recentPosts"><div class="recent-post-li-div">{{recentPost.title}}<br><span>{{recentPost.author}}</span></div></li>
+					<li ng-repeat="recentPost in recentPosts" ng-click="openPost(recentPost._id)"><div class="recent-post-li-div">{{recentPost.title}}<br><span>{{recentPost.author}}</span></div></li>
 				</ul>
 			</div>
 		</div>

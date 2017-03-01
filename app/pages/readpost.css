@@ -386,6 +386,25 @@
     color: #fff;
 }
 
+.like-button{
+	cursor:pointer;
+}
+
 .like-button p{
 	margin-left:10px;
+}
+
+.write-comment textarea{
+	width:1095px;
+	 overflow: auto;
+	 resize: none;
+	 border: 1px solid rgba(0,0,0,.0785);
+	 padding:10px;
+}
+
+.submit-comment{
+	float:right;
+	margin-bottom:15px;
+	border-radius:0px;
+	margin-top:5px;
 }

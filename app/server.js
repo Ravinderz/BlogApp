@@ -183,6 +183,28 @@ routes.post('/post/likePost/:postId',function(req,res){
 	});
 });
 
+//to like a comment
+routes.post('/post/likeComment/:commentId',function(req,res){
+	Post.find({'comments._id':req.params.commentId},{'comments.$':1},function(err,commentDoc){
+			if(err) throw err;
+			if(!commentDoc){
+				res.json({success:false,message:'Comment with id : '+req.params.commentId+' could not be found'});
+			}else{
+				Post.findOneAndUpdate(
+					{'comments._id':req.params.commentId},
+					{$inc:{"comments.$.likes":1},
+					updatedTime : Date.now()},
+					{upsert:false,new:true},
+					function(err,doc){
+						if(err) throw err;
+						return res.json({success:true,message:'comment liked successfully',doc:doc});
+					}
+				);
+			}
+	});
+});
+
+
 // route middleware to verify a token
 routes.use(function(req,res,next){
 	
@@ -310,9 +332,10 @@ routes.post('/post/addComment/:postId',function(req,res){
 			if(!postDoc){
 				res.json({success:false,message:'Post with id : '+req.params.postId+' could not be found'});
 			}else{
+				console.log(req.body);
 				Post.findOneAndUpdate(
 					{"_id":req.params.postId},
-					{$push : {comments : {$each:req.body.comments}},
+					{$push : {comments : req.body},
 					updatedTime : Date.now()},
 					{upsert:false,new:true},
 					function(err,doc){
@@ -326,26 +349,6 @@ routes.post('/post/addComment/:postId',function(req,res){
 
 
 
-//to like a comment
-routes.post('/post/likeComment/:commentId',function(req,res){
-	Post.find({'comments._id':req.params.commentId},{'comments.$':1},function(err,commentDoc){
-			if(err) throw err;
-			if(!commentDoc){
-				res.json({success:false,message:'Comment with id : '+req.params.commentId+' could not be found'});
-			}else{
-				Post.update(
-					{'comments._id':req.params.commentId},
-					{$inc:{"comments.$.likes":1},
-					updatedTime : Date.now()},
-					{upsert:false},
-					function(err,doc){
-						if(err) throw err;
-						return res.json({success:true,message:'comment liked successfully',doc:doc});
-					}
-				);
-			}
-	});
-});
 
 // to delete a comment in a post
 routes.delete('/post/deleteComment/:postId/:commentId',function(req,res){

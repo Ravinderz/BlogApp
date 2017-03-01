@@ -12,6 +12,7 @@ config(['$routeProvider',function($routeProvider){
 		$rootScope.isLogged = false;
 		$rootScope.datenow = Date.now();
 		$rootScope.user = {};
+		
 		var postId = $location.search().pid;
 		console.log("postid in readpost",postId);
 		
@@ -19,7 +20,6 @@ config(['$routeProvider',function($routeProvider){
 		 $rootScope.isLogged = true;
 		 $rootScope.user = angular.fromJson(sessionStorage.getItem("user"));
 	 }
-		
 		
 		$http({
 			method: "POST",
@@ -32,6 +32,7 @@ config(['$routeProvider',function($routeProvider){
 			console.log(response.data.doc[0]);
 		});
 		
+		// for liking a post
 		$scope.likePost = function(id){
 		
 		$http({
@@ -45,22 +46,43 @@ config(['$routeProvider',function($routeProvider){
 			console.log(response.data.doc);		
 		});
 
-	}
+			}
+			
+			// for liking a post
+		$scope.likeComment = function(id){
+		
+		$http({
+			method: "POST",
+			url : "http://localhost:2017/api/v1.0/post/likeComment/"+id,
+			header:{
+				'Content-Type':'application/json'
+			}
+		}).then(function(response){
+           $scope.readpost = response.data.doc;
+			console.log(response.data.doc);		
+		});
+
+		}	
 	
+		//to submit a comment
 		$scope.submitComment = function(postId){
 		console.log("inside submit comment controller");
 		console.log("post id in submit comment",postId);
 		console.log($scope.commentVar);
+		$scope.commentVar.commentBy = $rootScope.user.username;
+		$scope.commentVar.time = Date.now();
 		
+		var token = $rootScope.user.token
 		$http({
 			method: "POST",
 			url : "http://localhost:2017/api/v1.0/post/addComment/"+postId,
 			data : angular.toJson($scope.commentVar),
-			header : {
-				'Content-Type' : 'application/json'
-				'x-access-token': sessionStorage.getItem("user").token;
+			headers : {
+				'Content-Type' : 'application/json',
+				'x-access-token': token
 			}
 		}).then(function(response){
+			$scope.commentVar = "";
 			$scope.readpost = response.data.doc;
 			console.log(response.data.doc);
 		});
@@ -175,10 +197,8 @@ config(['$routeProvider',function($routeProvider){
 	$scope.logout = function(e){
 		e.preventDefault();
 		console.log("inside logout controller");
+		sessionStorage.removeItem("user");
 		$rootScope.user = {};
 		$rootScope.isLogged = false;
 	}
-}]).controller('submitCommentCtrl',['$rootScope','$scope',function($rootScope,$scope){
-
-	
 }]);

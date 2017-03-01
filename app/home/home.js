@@ -152,6 +152,7 @@ controller('homeCtrl',['$rootScope','$scope','$http',function($rootScope,$scope,
 	$scope.logout = function(e){
 		e.preventDefault();
 		console.log("inside logout controller");
+		sessionStorage.removeItem("user");
 		$rootScope.user = {};
 		$rootScope.isLogged = false;
 	}

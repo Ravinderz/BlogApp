@@ -100,7 +100,7 @@
       <div class="container">
         <div id="sub-navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav sub-navbar-nav">
-            <li><a href="../navbar/" style="padding-left:0;">Home</a></li>
+            <li><a href="#/home" style="padding-left:0;">Home</a></li>
             <li><a href="./">Top Ten</a></li>
 			<li><a href="../navbar/">Most Liked</a></li>
             <li><a href="./">Technology<span class="sr-only">(current)</span></a></li>
@@ -149,11 +149,11 @@
 				<h3>Comments</h3>
 				<div class="write-comment">
 					 <form name="comment-form">
-						<textarea ng-model="commentVar.comment" placeholder="write your comment"></textarea><br>
+						<textarea ng-model="commentVar.comment" ng-focus="commentVar.commentBy = user.username" placeholder="write your comment"></textarea><br>
 						<input type="hidden" ng-model="commentVar.commentBy" value="{{user.username}}" ng-init="commentVar.commentBy=user.username"/>
-						<input type="button" name="submit-comment" class="submit-comment" ng-click="submitComment(readpost._id)" value="Submit">
+						<input type="button" name="submit-comment" class="submit-comment btn btn-primary" ng-click="submitComment(readpost._id)" value="Submit">
+						<div class="clear-fix"></div>
 				  </form>
-				  <p>{{commentVar.comment}}</p>
 				  <div class="comment-div-demo" ng-show="commentVar.comment">
 					<div class="comment-author-details">
 						<img class="img-circle float-left" src="http://placehold.it/50x50">
@@ -167,14 +167,14 @@
 							</ul>
 						</div>
 						<div class="like-button float-right">
-							<span class="like-span" ng-click="likeComment(comment._id)">Like</span><p>{{commentVar.likes}}</p>
+							<span class="like-span" ng-click="likeComment(comment._id)">Like</span><p>{{0}}</p>
 						</div>
 						<div class="clear-fix"></div>
 					</div>
 				</div>
 				</div>
 				
-				<div class="comment-div" ng-repeat="comment in readpost.comments">
+				<div class="comment-div" ng-repeat="comment in readpost.comments | orderBy : '-time'">
 					<div class="comment-author-details">
 						<img class="img-circle float-left" src="http://placehold.it/50x50">
 						<p>{{comment.commentBy}}</p>
