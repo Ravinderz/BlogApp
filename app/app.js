@@ -5,6 +5,7 @@ angular.module('myApp', [
   'ngRoute',
   'myApp.home',
   'myApp.readpost',
+  'textAngular',
   'myApp.writepost'
 ]).
 config(['$routeProvider', function($routeProvider) {

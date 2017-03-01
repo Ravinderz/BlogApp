@@ -427,6 +427,11 @@ margin-bottom:1px;
     font-weight: 500;
     color: darkviolet;
 }
+
+.post-div-demo p{
+	margin-bottom: 40px;
+}
+
 .submit-comment{
 	float:right;
 	margin-bottom:15px;

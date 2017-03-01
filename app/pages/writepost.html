@@ -123,13 +123,14 @@
 						<span><span style="color:black">by</span> {{user.username}}</span><span style="color: #777;"> . {{datenow | date:'medium'}}</span>
 						<h4>{{postVar.description}}</h4>
 					</div>
-					<p>{{postVar.content}}</p>
+					<p>{{html}}</p>
 				</div>
 				<div class="write-post">
 					 <form name="post-form">
 						<input ng-model="postVar.title" type="text" class="form-control" placeholder="Title " required="" autofocus="">
 						<input ng-model="postVar.description" type="text" class="form-control" placeholder="Description " required="">
-						<textarea ng-model="postVar.content" placeholder="write post"></textarea><br>
+						<div text-angular ng-model="htmlVariable" name="post-content"></div>
+						<!--<textarea ng-model="postVar.content" placeholder="write post"></textarea><br>-->
 						<input type="button" name="submit-comment" class="submit-comment btn btn-primary" ng-click="submitPost()" value="Submit">
 						<div class="clear-fix"></div>
 				  </form>
