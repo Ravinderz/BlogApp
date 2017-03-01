@@ -117,21 +117,21 @@
 	<div class="posts-container">
 		<div class="left-container-div col-md-12" ng-controller="writePostCtrl">
 			<div class="fixed-height-box-2 col-md-12">
-				<div class="post-div-demo" ng-show="postVar.content || postVar.title || postVar.description">
+				<div class="post-div-demo" ng-show="htmlVariable || writepost.title || writepost.description">
 					<div class="post-title-demo">
-						<h1>{{postVar.title}}</h1>
+						<h1>{{writepost.title}}</h1>
 						<span><span style="color:black">by</span> {{user.username}}</span><span style="color: #777;"> . {{datenow | date:'medium'}}</span>
-						<h4>{{postVar.description}}</h4>
+						<h4>{{writepost.description}}</h4>
 					</div>
 					<p>{{html}}</p>
 				</div>
 				<div class="write-post">
 					 <form name="post-form">
-						<input ng-model="postVar.title" type="text" class="form-control" placeholder="Title " required="" autofocus="">
-						<input ng-model="postVar.description" type="text" class="form-control" placeholder="Description " required="">
+						<input ng-model="writepost.title" type="text" class="form-control" placeholder="Title " required="" autofocus="">
+						<input ng-model="writepost.description" type="text" class="form-control" placeholder="Description " required="">
 						<div text-angular ng-model="htmlVariable" name="post-content"></div>
 						<!--<textarea ng-model="postVar.content" placeholder="write post"></textarea><br>-->
-						<input type="button" name="submit-comment" class="submit-comment btn btn-primary" ng-click="submitPost()" value="Submit">
+						<input type="button" name="submit-comment" class="submit-comment btn btn-primary" ng-click="submitPost($event)" value="Submit">
 						<div class="clear-fix"></div>
 				  </form>
 				 

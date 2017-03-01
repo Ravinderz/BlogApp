@@ -117,13 +117,12 @@
 	<div class="posts-container">
 		<div class="left-container-div col-md-12" ng-controller="readPostCtrl">
 			<div class="post-div">
-				<div class="author-details">
-						<img class="img-circle float-left" src="http://placehold.it/50x50">
-						<p>{{readpost.author}}</p>
-						<p>{{readpost.createdTime | date:'medium'}}</p>
-				</div>
-				<h3>{{readpost.title}}</h3>
-				<p>{{readpost.content}}</p>
+				<div class="post-title-demo">
+						<h1>{{readpost.title}}</h1>
+						<span><span style="color:black">by</span> {{user.username}}</span><span style="color: #777;"> . {{datenow | date:'medium'}}</span>
+						<h4>{{readpost.description}}</h4>
+					</div>
+				<div ng-bind-html="readpost.content"></div>
 				<div class="post-details">
 					<div class="tag-div float-left">
 						<ul>

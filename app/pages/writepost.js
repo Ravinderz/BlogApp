@@ -7,7 +7,7 @@ config(['$routeProvider',function($routeProvider){
 	});
 }]).controller('writePostCtrl',['$rootScope','$scope','$http','$location',function($rootScope,$scope,$http,$location){
 	
-		$scope.readpost = {};
+		$scope.writepost = {};
 		$rootScope.isLogged = false;
 		$rootScope.datenow = Date.now();
 		$rootScope.user = {};
@@ -15,6 +15,31 @@ config(['$routeProvider',function($routeProvider){
 	 if(sessionStorage.getItem("user")){
 		 $rootScope.isLogged = true;
 		 $rootScope.user = angular.fromJson(sessionStorage.getItem("user"));
+	 }
+	 
+	 $scope.submitPost = function(e){
+		 e.preventDefault();
+		 console.log($scope.htmlVariable);
+		 $scope.writepost.author = $rootScope.user.username;
+		 $scope.writepost.content = $scope.htmlVariable;
+		 $scope.writepost.tags = ["testing"];
+		 console.log($scope.writepost);
+		 
+		 var token = $rootScope.user.token
+		$http({
+			method: "POST",
+			url : "http://localhost:2017/api/v1.0/post/createPost",
+			data : angular.toJson($scope.writepost),
+			headers : {
+				'Content-Type' : 'application/json',
+				'x-access-token': token
+			}
+		}).then(function(response){
+			$scope.writepost = "";
+			$scope.htmlVariable = "";
+			//$scope.readpost = response.data.doc;
+			console.log(response.data);
+		});
 	 }
 		
 		

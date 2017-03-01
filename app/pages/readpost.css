@@ -408,3 +408,23 @@
 	border-radius:0px;
 	margin-top:5px;
 }
+
+.post-title-demo h1{
+margin-bottom:1px;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 40px;
+    margin-left: -2.5px;
+    line-height: 1.04;
+    letter-spacing: -.028em;	
+}
+
+.post-title-demo h4{
+	margin-bottom:40px;
+}
+
+.post-title-demo span{
+    font-size: small;
+    font-weight: 500;
+    color: darkviolet;
+}
