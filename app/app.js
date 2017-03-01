@@ -4,12 +4,15 @@
 angular.module('myApp', [
   'ngRoute',
   'myApp.home',
-  'myApp.readpost'
+  'myApp.readpost',
+  'myApp.writepost'
 ]).
 config(['$routeProvider', function($routeProvider) {
 	
 	$routeProvider.when("/readpostbyid",{
 		redirectTo: '/readpost'
+	}).when("/writeNewPost",{
+		redirectTo: '/writepost',
 	}).otherwise({
 		redirectTo: '/home'
 	});

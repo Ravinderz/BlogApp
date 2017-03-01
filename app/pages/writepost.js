@@ -1,91 +1,23 @@
 'use strict';
 
-angular.module('myApp.readpost',['ngRoute','ui.bootstrap']).
+angular.module('myApp.writepost',['ngRoute','ui.bootstrap']).
 config(['$routeProvider',function($routeProvider){
-	$routeProvider.when('/readpost',{
-		templateUrl: 'pages/readpost.html'
+	$routeProvider.when('/writepost',{
+		templateUrl: 'pages/writepost.html'
 	});
-}]).controller('readPostCtrl',['$rootScope','$scope','$http','$location','$timeout',function($rootScope,$scope,$http,$location,$timeout){
+}]).controller('writePostCtrl',['$rootScope','$scope','$http','$location',function($rootScope,$scope,$http,$location){
 	
 		$scope.readpost = {};
 		$rootScope.isLogged = false;
 		$rootScope.datenow = Date.now();
 		$rootScope.user = {};
-		
-		var postId = $location.search().pid;
-		console.log("postid in readpost",postId);
-		
+				
 	 if(sessionStorage.getItem("user")){
 		 $rootScope.isLogged = true;
 		 $rootScope.user = angular.fromJson(sessionStorage.getItem("user"));
 	 }
 		
-		$http({
-			method: "POST",
-			url : "http://localhost:2017/api/v1.0/post/findPostById/"+postId,
-			header:{
-				'Content-Type':'application/json'
-			}
-		}).then(function(response){
-			$scope.readpost = response.data.doc[0];
-			console.log(response.data.doc[0]);
-		});
 		
-		// for liking a post
-		$scope.likePost = function(id){
-		
-		$http({
-			method: "POST",
-			url : "http://localhost:2017/api/v1.0/post/likePost/"+id,
-			header:{
-				'Content-Type':'application/json'
-			}
-		}).then(function(response){
-           $scope.readpost = response.data.doc;
-			console.log(response.data.doc);		
-		});
-
-			}
-			
-			// for liking a post
-		$scope.likeComment = function(id){
-		
-		$http({
-			method: "POST",
-			url : "http://localhost:2017/api/v1.0/post/likeComment/"+id,
-			header:{
-				'Content-Type':'application/json'
-			}
-		}).then(function(response){
-           $scope.readpost = response.data.doc;
-			console.log(response.data.doc);		
-		});
-
-		}	
-	
-		//to submit a comment
-		$scope.submitComment = function(postId){
-		console.log("inside submit comment controller");
-		console.log("post id in submit comment",postId);
-		console.log($scope.commentVar);
-		$scope.commentVar.commentBy = $rootScope.user.username;
-		$scope.commentVar.time = Date.now();
-		
-		var token = $rootScope.user.token
-		$http({
-			method: "POST",
-			url : "http://localhost:2017/api/v1.0/post/addComment/"+postId,
-			data : angular.toJson($scope.commentVar),
-			headers : {
-				'Content-Type' : 'application/json',
-				'x-access-token': token
-			}
-		}).then(function(response){
-			$scope.commentVar = "";
-			$scope.readpost = response.data.doc;
-			console.log(response.data.doc);
-		});
-	}
 	
 }]).controller('loginCtrl',['$scope','$http','$uibModal',function($scope,$http,$uibModal){
 
@@ -105,11 +37,7 @@ config(['$routeProvider',function($routeProvider){
 
   };
 
-
-
 }]).controller('ModalInstanceCtrl',['$rootScope','$scope','$http','$uibModalInstance', function($rootScope,$scope,$http,$uibModalInstance) {
-
-
 
   $scope.cancel = function() {
     $uibModalInstance.dismiss('cancel');

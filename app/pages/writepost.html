@@ -5,15 +5,15 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="icon" href="http://getbootstrap.com/favicon.ico">
 
-    <title>Read Post</title>
+    <title>Write Post</title>
 
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="../justified-nav.css" rel="stylesheet">
-	<link href="pages/readpost.css" rel="stylesheet">
+	<link href="pages/writepost.css" rel="stylesheet">
 
 </head>
 
-<body ng-controller="readPostCtrl">
+<body ng-controller="writePostCtrl">
 
 		<!-- Nav bar for the application... later will be placed inside a seperate html page to include in index file-->
 	 <nav class="navbar navbar-default navbar-static-top">
@@ -74,7 +74,7 @@
 		<!-- This will display when a user is logged in -->
 		 <div id="navbar" class="navbar-collapse collapse" ng-if="isLogged">
           <ul class="nav navbar-nav navbar-right">
-			<li><a href="#/writeNewPost">Write Article<span class="sr-only">(current)</span></a></li>
+			<li><a href="./">Write Article<span class="sr-only">(current)</span></a></li>
             <li>
 				<div class="dropdown">
 					<button class="btn btn-default dropdown-toggle img-dropdown" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -115,83 +115,27 @@
     </nav>
 	<div class="container">
 	<div class="posts-container">
-		<div class="left-container-div col-md-12" ng-controller="readPostCtrl">
-			<div class="post-div">
-				<div class="author-details">
-						<img class="img-circle float-left" src="http://placehold.it/50x50">
-						<p>{{readpost.author}}</p>
-						<p>{{readpost.createdTime | date:'medium'}}</p>
-				</div>
-				<h3>{{readpost.title}}</h3>
-				<p>{{readpost.content}}</p>
-				<div class="post-details">
-					<div class="tag-div float-left">
-						<ul>
-							<li ng-repeat="tag in readpost.tags">{{tag}}</li>
-						</ul>
-					</div>
-					<div class="like-button float-right">
-						<span class="like-span" ng-click="likePost(readpost._id)">Like</span><p>{{readpost.likes}}</p>
-					</div>
-					<div class="clear-fix"></div>
-				</div>
-			</div>
-			<div class="fixed-height-box col-md-12">
-				<h3>Related Posts</h3>
-				<div class="related-posts col-md-3">
-				</div>
-				<div class="related-posts col-md-3">
-				</div>
-				<div class="related-posts col-md-3">
-				</div>
-			</div>
+		<div class="left-container-div col-md-12" ng-controller="writePostCtrl">
 			<div class="fixed-height-box-2 col-md-12">
-				<h3>Comments</h3>
-				<div class="write-comment">
-					 <form name="comment-form">
-						<textarea ng-model="commentVar.comment" ng-focus="commentVar.commentBy = user.username" placeholder="write your comment"></textarea><br>
-						<input type="hidden" ng-model="commentVar.commentBy" value="{{user.username}}" ng-init="commentVar.commentBy=user.username"/>
-						<input type="button" name="submit-comment" class="submit-comment btn btn-primary" ng-click="submitComment(readpost._id)" value="Submit">
+				<div class="post-div-demo" ng-show="postVar.content || postVar.title || postVar.description">
+					<div class="post-title-demo">
+						<h1>{{postVar.title}}</h1>
+						<span><span style="color:black">by</span> {{user.username}}</span><span style="color: #777;"> . {{datenow | date:'medium'}}</span>
+						<h4>{{postVar.description}}</h4>
+					</div>
+					<p>{{postVar.content}}</p>
+				</div>
+				<div class="write-post">
+					 <form name="post-form">
+						<input ng-model="postVar.title" type="text" class="form-control" placeholder="Title " required="" autofocus="">
+						<input ng-model="postVar.description" type="text" class="form-control" placeholder="Description " required="">
+						<textarea ng-model="postVar.content" placeholder="write post"></textarea><br>
+						<input type="button" name="submit-comment" class="submit-comment btn btn-primary" ng-click="submitPost()" value="Submit">
 						<div class="clear-fix"></div>
 				  </form>
-				  <div class="comment-div-demo" ng-show="commentVar.comment">
-					<div class="comment-author-details">
-						<img class="img-circle float-left" src="http://placehold.it/50x50">
-						<p>{{commentVar.commentBy}}</p>
-					</div>
-					<p class="comment-content">{{commentVar.comment}}</p>
-					<div class="post-details">
-						<div class="comment-time float-left">
-							<ul>
-								<li>{{datenow | date:'medium'}}</li>
-							</ul>
-						</div>
-						<div class="like-button float-right">
-							<span class="like-span" ng-click="likeComment(comment._id)">Like</span><p>{{0}}</p>
-						</div>
-						<div class="clear-fix"></div>
-					</div>
+				 
 				</div>
-				</div>
-				
-				<div class="comment-div" ng-repeat="comment in readpost.comments | orderBy : '-time'">
-					<div class="comment-author-details">
-						<img class="img-circle float-left" src="http://placehold.it/50x50">
-						<p>{{comment.commentBy}}</p>
-					</div>
-					<p class="comment-content">{{comment.comment}}</p>
-					<div class="post-details">
-						<div class="comment-time float-left">
-							<ul>
-								<li>{{comment.time | date:'medium'}}</li>
-							</ul>
-						</div>
-						<div class="like-button float-right">
-							<span class="like-span" ng-click="likeComment(comment._id)">Like</span><p>{{comment.likes}}</p>
-						</div>
-						<div class="clear-fix"></div>
-					</div>
-				</div>
+			</div>
 			</div>
 		</div>
   </div>
