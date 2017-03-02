@@ -233,6 +233,8 @@
 	padding:0;
 	padding-bottom: 3px;
 	border-color:transparent;
+	margin-top: 7px;
+    margin-right: 3px;
 }
 
 .img-dropdown:hover{
@@ -277,8 +279,12 @@
 	box-shadow:none;
 }
 
+.img-dropdown img{
+	margin-right:3px;
+}
+
 .caret{
-	margin-top: 23px;
+	margin-top: 15px;
     margin-left: 3px;
 }
 
@@ -381,9 +387,24 @@
 }
 
 .like-span{
-	padding: 3px 10px;
-    background-color: rgba(209, 24, 24,.86);
-    color: #fff;
+	color:#9E7CC1;
+}
+
+.like-span i{
+	margin-top: 5px;
+    margin-right: 10px;
+}
+
+.like-span .fa-heart{
+	display:none;
+}
+
+.like-span:hover .fa-heart-o{
+	display:none;
+}
+
+.like-span:hover .fa-heart{
+	display:inline;
 }
 
 .like-button{
