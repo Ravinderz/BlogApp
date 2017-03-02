@@ -21,7 +21,7 @@ controller('homeCtrl',['$rootScope','$scope','$http',function($rootScope,$scope,
 
 	 $http({
 			method: "GET",
-			url : "http://localhost:8080/api/v1.0/post/getAllPosts",
+			url : "http://localhost:5000/api/v1.0/post/getAllPosts",
 			header:{
 				'Content-Type':'application/json'
 			}
@@ -32,7 +32,7 @@ controller('homeCtrl',['$rootScope','$scope','$http',function($rootScope,$scope,
 		
 	 $http({
 			method: "GET",
-			url : "http://localhost:8080/api/v1.0/post/getRecentTenPost",
+			url : "http://localhost:5000/api/v1.0/post/getRecentTenPost",
 			header:{
 				'Content-Type':'application/json'
 			}
@@ -80,7 +80,7 @@ controller('homeCtrl',['$rootScope','$scope','$http',function($rootScope,$scope,
 		console.log("inside scope.login function");
 		$http({
 			method: "POST",
-			url : "http://localhost:8080/api/v1.0/authenticate",
+			url : "http://localhost:5000/api/v1.0/authenticate",
 			data : angular.toJson($scope.user),
 			header : {
 				'Content-Type' : 'application/json'
@@ -137,7 +137,7 @@ controller('homeCtrl',['$rootScope','$scope','$http',function($rootScope,$scope,
 		console.log(angular.toJson($scope.user));
 		$http({
 			method: "POST",
-			url : "http://localhost:8080/api/v1.0/register",
+			url : "http://localhost:5000/api/v1.0/register",
 			data : angular.toJson($scope.user),
 			header : {
 				'Content-Type' : 'application/json'

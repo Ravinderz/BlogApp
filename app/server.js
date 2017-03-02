@@ -21,11 +21,11 @@ var app = express();
 var db = mongoose.connect(config.database); // connect to database
 app.set('superSecret', config.secret); // secret variable
 
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 5000;
 
 // use morgan to log requests to the console
 app.use(morgan('dev'));
-	app.set('port', process.env.PORT || 8080);
+	app.set('port', process.env.PORT || 5000);
 	app.set('views', path.join(__dirname, 'views'));
     app.use(bodyParser.json());                        
     app.use(bodyParser.urlencoded({ extended: true }));
