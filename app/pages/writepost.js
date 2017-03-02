@@ -28,7 +28,7 @@ config(['$routeProvider',function($routeProvider){
 		 var token = $rootScope.user.token
 		$http({
 			method: "POST",
-			url : "http://localhost:80/api/v1.0/post/createPost",
+			url : "http://localhost:8080/api/v1.0/post/createPost",
 			data : angular.toJson($scope.writepost),
 			headers : {
 				'Content-Type' : 'application/json',
@@ -77,7 +77,7 @@ config(['$routeProvider',function($routeProvider){
 		console.log("inside scope.login function");
 		$http({
 			method: "POST",
-			url : "http://localhost:80/api/v1.0/authenticate",
+			url : "http://localhost:8080/api/v1.0/authenticate",
 			data : angular.toJson($scope.user),
 			header : {
 				'Content-Type' : 'application/json'
@@ -134,7 +134,7 @@ config(['$routeProvider',function($routeProvider){
 		console.log(angular.toJson($scope.user));
 		$http({
 			method: "POST",
-			url : "http://localhost:80/api/v1.0/register",
+			url : "http://localhost:8080/api/v1.0/register",
 			data : angular.toJson($scope.user),
 			header : {
 				'Content-Type' : 'application/json'
