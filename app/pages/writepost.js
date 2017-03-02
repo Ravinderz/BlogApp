@@ -6,10 +6,12 @@ config(['$routeProvider',function($routeProvider){
 		templateUrl: 'pages/writepost.html'
 	});
 }]).controller('writePostCtrl',['$rootScope','$scope','$http','$location',function($rootScope,$scope,$http,$location){
-	
+		
+		var addr = $location.absUrl().split('/');
 		$scope.writepost = {};
 		$rootScope.isLogged = false;
 		$rootScope.datenow = Date.now();
+		$rootScope.webAddr = addr[0]+"//"+addr[1]+addr[2];
 		$rootScope.user = {};
 				
 	 if(sessionStorage.getItem("user")){
@@ -28,7 +30,7 @@ config(['$routeProvider',function($routeProvider){
 		 var token = $rootScope.user.token
 		$http({
 			method: "POST",
-			url : "http://localhost:5000/api/v1.0/post/createPost",
+			url : $rootScope.webAddr+"/api/v1.0/post/createPost",
 			data : angular.toJson($scope.writepost),
 			headers : {
 				'Content-Type' : 'application/json',
@@ -77,7 +79,7 @@ config(['$routeProvider',function($routeProvider){
 		console.log("inside scope.login function");
 		$http({
 			method: "POST",
-			url : "http://localhost:5000/api/v1.0/authenticate",
+			url : $rootScope.webAddr+"/api/v1.0/authenticate",
 			data : angular.toJson($scope.user),
 			header : {
 				'Content-Type' : 'application/json'
@@ -134,7 +136,7 @@ config(['$routeProvider',function($routeProvider){
 		console.log(angular.toJson($scope.user));
 		$http({
 			method: "POST",
-			url : "http://localhost:5000/api/v1.0/register",
+			url : $rootScope.webAddr+"/api/v1.0/register",
 			data : angular.toJson($scope.user),
 			header : {
 				'Content-Type' : 'application/json'

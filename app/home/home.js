@@ -7,12 +7,18 @@ config(['$routeProvider',function($routeProvider){
 		controller: 'homeCtrl'
 	});
 }]).
-controller('homeCtrl',['$rootScope','$scope','$http',function($rootScope,$scope,$http,loginService){
+controller('homeCtrl',['$rootScope','$scope','$http','$location',function($rootScope,$scope,$http,$location,loginService){
+
+	var addr = $location.absUrl().split('/');
+	
 
 	 $scope.posts = {};
 	 $scope.recentPosts = {};
+	 $rootScope.webAddr = addr[0]+"//"+addr[1]+addr[2];
 	 $rootScope.isLogged = false;
 	 $rootScope.user = {};
+	 
+	 console.log($rootScope.webAddr);
 	 
 	 if(sessionStorage.getItem("user")){
 		 $rootScope.isLogged = true;
@@ -21,7 +27,7 @@ controller('homeCtrl',['$rootScope','$scope','$http',function($rootScope,$scope,
 
 	 $http({
 			method: "GET",
-			url : "http://localhost:5000/api/v1.0/post/getAllPosts",
+			url : $rootScope.webAddr+"/api/v1.0/post/getAllPosts",
 			header:{
 				'Content-Type':'application/json'
 			}
@@ -32,7 +38,7 @@ controller('homeCtrl',['$rootScope','$scope','$http',function($rootScope,$scope,
 		
 	 $http({
 			method: "GET",
-			url : "http://localhost:5000/api/v1.0/post/getRecentTenPost",
+			url : $rootScope.webAddr+"/api/v1.0/post/getRecentTenPost",
 			header:{
 				'Content-Type':'application/json'
 			}
@@ -80,7 +86,7 @@ controller('homeCtrl',['$rootScope','$scope','$http',function($rootScope,$scope,
 		console.log("inside scope.login function");
 		$http({
 			method: "POST",
-			url : "http://localhost:5000/api/v1.0/authenticate",
+			url : $rootScope.webAddr+"/api/v1.0/authenticate",
 			data : angular.toJson($scope.user),
 			header : {
 				'Content-Type' : 'application/json'
@@ -137,7 +143,7 @@ controller('homeCtrl',['$rootScope','$scope','$http',function($rootScope,$scope,
 		console.log(angular.toJson($scope.user));
 		$http({
 			method: "POST",
-			url : "http://localhost:5000/api/v1.0/register",
+			url : $rootScope.webAddr+"/api/v1.0/register",
 			data : angular.toJson($scope.user),
 			header : {
 				'Content-Type' : 'application/json'

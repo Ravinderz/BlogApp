@@ -7,9 +7,11 @@ config(['$routeProvider',function($routeProvider){
 	});
 }]).controller('readPostCtrl',['$rootScope','$scope','$http','$location','$timeout',function($rootScope,$scope,$http,$location,$timeout){
 	
+		var addr = $location.absUrl().split('/');
 		$scope.readpost = {};
 		$rootScope.isLogged = false;
 		$rootScope.datenow = Date.now();
+		$rootScope.webAddr = addr[0]+"//"+addr[1]+addr[2];
 		$rootScope.user = {};
 		
 		var postId = $location.search().pid;
@@ -22,7 +24,7 @@ config(['$routeProvider',function($routeProvider){
 		
 		$http({
 			method: "POST",
-			url : "http://localhost:5000/api/v1.0/post/findPostById/"+postId,
+			url : $rootScope.webAddr+"/api/v1.0/post/findPostById/"+postId,
 			header:{
 				'Content-Type':'application/json'
 			}
@@ -36,7 +38,7 @@ config(['$routeProvider',function($routeProvider){
 		
 		$http({
 			method: "POST",
-			url : "http://localhost:5000/api/v1.0/post/likePost/"+id,
+			url : $rootScope.webAddr+"/api/v1.0/post/likePost/"+id,
 			header:{
 				'Content-Type':'application/json'
 			}
@@ -52,7 +54,7 @@ config(['$routeProvider',function($routeProvider){
 		
 		$http({
 			method: "POST",
-			url : "http://localhost:5000/api/v1.0/post/likeComment/"+id,
+			url : $rootScope.webAddr+"/api/v1.0/post/likeComment/"+id,
 			header:{
 				'Content-Type':'application/json'
 			}
@@ -74,7 +76,7 @@ config(['$routeProvider',function($routeProvider){
 		var token = $rootScope.user.token
 		$http({
 			method: "POST",
-			url : "http://localhost:5000/api/v1.0/post/addComment/"+postId,
+			url : $rootScope.webAddr+"/api/v1.0/post/addComment/"+postId,
 			data : angular.toJson($scope.commentVar),
 			headers : {
 				'Content-Type' : 'application/json',
@@ -124,7 +126,7 @@ config(['$routeProvider',function($routeProvider){
 		console.log("inside scope.login function");
 		$http({
 			method: "POST",
-			url : "http://localhost:5000/api/v1.0/authenticate",
+			url : $rootScope.webAddr+"/api/v1.0/authenticate",
 			data : angular.toJson($scope.user),
 			header : {
 				'Content-Type' : 'application/json'
@@ -181,7 +183,7 @@ config(['$routeProvider',function($routeProvider){
 		console.log(angular.toJson($scope.user));
 		$http({
 			method: "POST",
-			url : "http://localhost:5000/api/v1.0/register",
+			url : $rootScope.webAddr+"/api/v1.0/register",
 			data : angular.toJson($scope.user),
 			header : {
 				'Content-Type' : 'application/json'
