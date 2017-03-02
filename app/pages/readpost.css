@@ -50,7 +50,6 @@
 	padding-bottom:15px;
 	margin-bottom:5px;
 	border-bottom: 1px solid rgba(0,0,0,.0785);
-	cursor:pointer;
 }
 
 
@@ -73,7 +72,7 @@
 	padding-bottom:5px;
 	margin-right:8px;
 	color: rgba(255,255,255,.9);
-    background: rgba(107, 66, 244,.8);
+    background: #9E7CC1;
 }
 
 .author-details{

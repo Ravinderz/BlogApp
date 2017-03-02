@@ -73,7 +73,7 @@
 	padding-bottom:5px;
 	margin-right:8px;
 	color: rgba(255,255,255,.9);
-    background: #9E7CC1;
+    background: rgba(107, 66, 244,.8);
 }
 
 .author-details{
@@ -408,18 +408,34 @@
 	border:1px solid rgba(0,0,0,.0785);
 }
 
-.post-title-demo h1{
-margin-bottom:1px;
+.container-fluid{
+	height:500px;
+	display:table;
+}
+
+.div-container{
+	display:table-cell;
+	vertical-align:middle;
+}
+
+.div-container h1{
+	margin-bottom:1px;
     font-weight: 700;
     font-style: normal;
     font-size: 40px;
     margin-left: -2.5px;
     line-height: 1.04;
     letter-spacing: -.028em;	
+	color:#9E7CC1;
+	text-align:center;
+
 }
 
-.post-title-demo h4{
+.div-container h4{
 	margin-bottom:40px;
+	color:#9E7CC1;
+	text-align:center;
+
 }
 
 .post-title-demo span{

@@ -5,15 +5,15 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="icon" href="http://getbootstrap.com/favicon.ico">
 
-    <title>BlogApp using MEAN stack</title>
+    <title>Coming Soon</title>
 
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
-	<link href="justified-nav.css" rel="stylesheet">
-	<link href="home/home.css" rel="stylesheet">
+	<link href="../justified-nav.css" rel="stylesheet">
+	<link href="pages/comingsoon.css" rel="stylesheet">
 
 </head>
 
-<body ng-controller="homeCtrl">
+<body ng-controller="comingSoonCtrl">
 
 		<!-- Nav bar for the application... later will be placed inside a seperate html page to include in index file-->
 	 <nav class="navbar navbar-default navbar-static-top">
@@ -74,7 +74,7 @@
 		<!-- This will display when a user is logged in -->
 		 <div id="navbar" class="navbar-collapse collapse" ng-if="isLogged">
           <ul class="nav navbar-nav navbar-right">
-			<li><a href="#/writeNewPost" target="_self">Write Article<span class="sr-only">(current)</span></a></li>
+			<li><a href="./">Write Article<span class="sr-only">(current)</span></a></li>
             <li>
 				<div class="dropdown">
 					<button class="btn btn-default dropdown-toggle img-dropdown" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -113,37 +113,12 @@
         </div><!--/.nav-collapse -->
       </div>
     </nav>
-	<div class="container">
-	<div class="posts-container">
-		<div class="left-container-div col-md-8" ng-controller="openPostCtrl">
-			<div class="post-div" ng-repeat="post in posts" ng-click="openPost(post._id)">
-				<h3>{{post.title}}</h3>
-				<p>{{post.description}}</p>
-				<p><i>read more . . .</i></p>
-				<div class="post-details">
-					<div class="tag-div float-left">
-						<ul>
-							<li ng-repeat="tag in post.tags">{{tag}}</li>
-						</ul>
-					</div>
-					<div class="author-details float-right">
-						<img class="img-circle float-left" src="http://placehold.it/50x50">
-						<p>{{post.author}}</p>
-						<p>{{post.createdTime | date:'medium'}}</p>
-					</div>
-					<div class="clear-fix"></div>
-				</div>
-			</div>
+	<div class="container-fluid">
+		<div class="div-container">
+			<h1>Coming soon</h1>
+			<h4>This page is empty...Really! checkout the other cool stuff on the site.</h4>
 		</div>
-		<div class="right-container-div col-md-4" ng-controller="openPostCtrl">
-			<div class="right-sub-container-div">
-				<p class="recent-post-heading">Recent posts</p>
-				<ul class="recent-post-ul" >
-					<li ng-repeat="recentPost in recentPosts" ng-click="openPost(recentPost._id)"><div class="recent-post-li-div">{{recentPost.title}}<br><span>{{recentPost.author}}</span></div></li>
-				</ul>
-			</div>
-		</div>
-  </div>
+	</div>
 	<div>
 
 	</div>
