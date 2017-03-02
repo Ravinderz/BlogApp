@@ -5,7 +5,7 @@
   "description": "A starter project for AngularJS",
   "repository": "https://github.com/ravinderz/BlogApp",
   "license": "MIT",
-  "dependencies": {
+  "devDependencies": {
     "bower": "^1.7.7",
     "express": "~4.10.0",
     "stormpath": "~0.7.5",
@@ -46,6 +46,26 @@
   },
   "dependencies": {
     "bower": "^1.8.0",
-    "express": "^4.10.8"
+    "express": "^4.10.8",
+	"stormpath": "~0.7.5",
+    "express-stormpath": "~0.5.9",
+    "mongodb": "latest",
+    "mongoose": "~4.4",
+    "mongojs": "latest",
+    "method-override": "latest",
+    "body-parser": "latest",
+    "errorhandler": "latest",
+    "http-server": "^0.9.0",
+    "morgan": "latest",
+    "jwt-simple": "latest",
+    "passport": "latest",
+    "passport-jwt": "latest",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.22",
+    "karma-chrome-launcher": "^0.2.3",
+    "karma-firefox-launcher": "^0.1.7",
+    "karma-jasmine": "^0.3.8",
+    "karma-junit-reporter": "^0.4.1",
+    "protractor": "^4.0.9"
   }
 }
