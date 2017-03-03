@@ -9,6 +9,8 @@ config(['$routeProvider',function($routeProvider){
 	
 		var addr = $location.absUrl().split('/');
 		$scope.readpost = {};
+		$scope.hasUserLikedPost = false;
+		$scope.hasUserLikedComment = false;
 		$rootScope.isLogged = false;
 		$rootScope.datenow = Date.now();
 		$rootScope.webAddr = addr[0]+"//"+addr[1]+addr[2];
@@ -31,39 +33,73 @@ config(['$routeProvider',function($routeProvider){
 		}).then(function(response){
 			$scope.readpost = response.data.doc[0];
 			console.log(response.data.doc[0]);
+			for(var i = 0; i < $scope.readpost.likedBy.length;i++){
+			if($rootScope.user._id === $scope.readpost.likedBy[i]){
+					console.log("user liked the post");
+					$scope.hasUserLikedPost = true;
+		}
+		}
 		});
+		
+		
 		
 		// for liking a post
 		$scope.likePost = function(id){
-		
+		if(!$scope.hasUserLikedPost){	
+		console.log(angular.toJson($rootScope.user._id))
 		$http({
 			method: "POST",
 			url : $rootScope.webAddr+"/api/v1.0/post/likePost/"+id,
+			data : {
+				userId : $rootScope.user._id,
+			},
 			header:{
 				'Content-Type':'application/json'
 			}
 		}).then(function(response){
            $scope.readpost = response.data.doc;
-			console.log(response.data.doc);		
+			console.log(response.data.doc);	
+			for(var i = 0; i < $scope.readpost.likedBy.length;i++){
+			if($rootScope.user._id === $scope.readpost.likedBy[i]){
+					console.log("user liked the post");
+					$scope.hasUserLikedPost = true;
+		}
+		}
+				
 		});
 
+			}
 			}
 			
 			// for liking a post
+			
 		$scope.likeComment = function(id){
-		
+		if(!$scope.hasUserLikedComment){
 		$http({
 			method: "POST",
 			url : $rootScope.webAddr+"/api/v1.0/post/likeComment/"+id,
+			data :{ 
+				userId:$rootScope.user._id
+			},
 			header:{
 				'Content-Type':'application/json'
 			}
 		}).then(function(response){
            $scope.readpost = response.data.doc;
 			console.log(response.data.doc);		
+			for(var i = 0; i < $scope.readpost.comments.length;i++){
+				if(id === $scope.readpost.comments[i]._id){
+					for(var j = 0 ; j < $scope.readpost.comments[i].likedBy.length;j++){
+						if($rootScope.user._id === $scope.readpost.comments[i].likedBy[j]){
+							$scope.hasUserLikedComment = true;
+						}
+					}
+				}	
+			}
 		});
 
 		}	
+		}
 	
 		//to submit a comment
 		$scope.submitComment = function(postId){

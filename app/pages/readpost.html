@@ -130,7 +130,7 @@
 						</ul>
 					</div>
 					<div class="like-button float-right">
-						<span class="like-span" ng-click="likePost(readpost._id)"><i class="fa fa-heart-o fa-lg"></i><i class="fa fa-heart fa-lg"></i></span><span>{{readpost.likes}}</span>
+						<span class="like-span" ng-click="likePost(readpost._id)"><i class="fa fa-heart-o fa-lg" ng-show="!hasUserLikedPost"></i><i class="fa fa-heart fa-lg" ng-show="hasUserLikedPost"></i></span><span>{{readpost.likes}}</span>
 					</div>
 					<div class="clear-fix"></div>
 				</div>
@@ -186,7 +186,7 @@
 							</ul>
 						</div>
 						<div class="like-button float-right">
-							<span class="like-span" ng-click="likeComment(comment._id)"><i class="fa fa-heart-o fa-lg"></i><i class="fa fa-heart fa-lg"></i></span><span>{{comment.likes}}</span>
+							<span class="comment-like-span" ng-click="likeComment(comment._id)"><i class="fa fa-heart-o fa-lg"></i><i class="fa fa-heart fa-lg" ></i></span><span>{{comment.likes}}</span>
 						</div>
 						<div class="clear-fix"></div>
 					</div>

@@ -166,6 +166,7 @@ routes.post('/post/findPostById/:postId',function(req,res){
 
 //to like a post
 routes.post('/post/likePost/:postId',function(req,res){
+	console.log(req.body.userId);
 	Post.find({'_id':req.params.postId},function(err,postDoc){
 			if(err) throw err;
 			if(!postDoc){
@@ -174,7 +175,8 @@ routes.post('/post/likePost/:postId',function(req,res){
 				Post.findOneAndUpdate(
 					{'_id':req.params.postId},
 					{$inc:{"likes":1},
-					updatedTime : Date.now()},
+					updatedTime : Date.now(),
+					$push : {likedBy : ObjectId(req.body.userId)}},
 					{upsert:false,new:true},
 					function(err,doc){
 						if(err) throw err;
@@ -187,15 +189,18 @@ routes.post('/post/likePost/:postId',function(req,res){
 
 //to like a comment
 routes.post('/post/likeComment/:commentId',function(req,res){
+	console.log(req.body.userId);
 	Post.find({'comments._id':req.params.commentId},{'comments.$':1},function(err,commentDoc){
 			if(err) throw err;
 			if(!commentDoc){
 				res.json({success:false,message:'Comment with id : '+req.params.commentId+' could not be found'});
 			}else{
+				
 				Post.findOneAndUpdate(
 					{'comments._id':req.params.commentId},
 					{$inc:{"comments.$.likes":1},
-					updatedTime : Date.now()},
+					updatedTime : Date.now(),
+					"$push" : {"comments.$.likedBy" : ObjectId(req.body.userId)}},
 					{upsert:false,new:true},
 					function(err,doc){
 						if(err) throw err;

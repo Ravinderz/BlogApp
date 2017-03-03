@@ -7,6 +7,7 @@ module.exports = mongoose.model('post', new Schema({
 	author : String,
 	content : String,
 	likes : Number,
+	likedBy : [{type:Schema.Types.ObjectId,ref:'User'}],
 	createdTime : {type : Date,default: Date.now()},
 	updatedTime : {type : Date, default: Date.now()},
 	tags : [String],
@@ -15,6 +16,7 @@ module.exports = mongoose.model('post', new Schema({
 	comments :[{comment : String,
 				commentBy : String,
 				likes: {type:Number,default:0},
+				likedBy : [{type: Schema.Types.ObjectId,ref:'User'}],
 				isActive : {type:Boolean,default:true},
 				time : {type:Date,default : Date.now()}
 			  }]
