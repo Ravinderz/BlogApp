@@ -30,8 +30,8 @@
     "protractor": "^4.0.9"
   },
   "scripts": {
-    "postinstall" : "bower install",
-    /*"postinstall": "bash ./post_install.sh",*/
+    /*"postinstall" : "bower install",*/
+    "postinstall": "bash ./post_install.sh",
     "update-deps": "npm update",
     "postupdate-deps": "bower update",
     "prestart": "npm install",
