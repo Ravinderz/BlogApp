@@ -428,7 +428,7 @@
 }
 
 .write-comment textarea{
-	width:1095px;
+	width:100%;
 	 overflow: auto;
 	 resize: none;
 	 border: 1px solid rgba(0,0,0,.0785);
@@ -464,4 +464,24 @@ margin-bottom:1px;
 
 .ta-insert-video{
 	height:500px;
+}
+
+/*media queries*/
+
+@media only screen and (max-width: 768px) {
+   .write-comment textarea{
+   	width:100%;
+   }
+
+   .post-div img{
+   		width:100%;
+   }
+
+   .tag-div li{
+   		margin-bottom: 5px;
+   }
+
+   .fixed-height-box{
+   		padding-left: 0px;
+   }
 }

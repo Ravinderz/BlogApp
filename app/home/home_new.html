@@ -118,7 +118,8 @@
 		<div class="left-container-div col-md-8" ng-controller="openPostCtrl">
 			<div class="post-div" ng-repeat="post in posts" ng-click="openPost(post._id)">
 				<h3>{{post.title}}</h3>
-				<p>{{post.description}}</p>
+				<span><span style="color:black">by</span> {{post.author}}</span><span style="color: #777;"> . {{post.createdTime | date:'medium'}}</span>
+				<p class="post-desc">{{post.description}}</p>
 				<p><i>read more . . .</i></p>
 				<div class="post-details">
 					<div class="tag-div float-left">

@@ -309,3 +309,16 @@
     font-weight: 100;
     font-size: small;
 }
+
+/*media queries*/
+@media only screen and (max-width: 768px) {
+   .post-desc, .author-details{
+    display:none;
+   }
+
+    .tag-div li{
+      margin-bottom: 5px;
+   }
+
+   
+}

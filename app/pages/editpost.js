@@ -8,8 +8,6 @@ config(['$routeProvider',function($routeProvider){
 }]).controller('editPostCtrl',['$rootScope','$scope','$http','$location',function($rootScope,$scope,$http,$location){
 		
 		var addr = $location.absUrl().split('/');
-		/*$scope.editpost = {};
-		$scope.editpost.tags=[];*/
 		$rootScope.isLogged = false;
 		$rootScope.datenow = Date.now();
 		$rootScope.webAddr = addr[0]+"//"+addr[1]+addr[2];

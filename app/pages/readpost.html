@@ -119,7 +119,7 @@
 			<div class="post-div">
 				<div class="post-title-demo">
 						<h1>{{readpost.title}}</h1>
-						<span><span style="color:black">by</span> {{user.username}}</span><span style="color: #777;"> . {{datenow | date:'medium'}}</span>
+						<span><span style="color:black">by</span> {{readpost.author}}</span><span style="color: #777;"> . {{datenow | date:'medium'}}</span>
 						<h4>{{readpost.description}}</h4>
 					</div>
 				<div ta-bind ng-model="readpost.content"></div>
