@@ -122,7 +122,7 @@
 						<span><span style="color:black">by</span> {{user.username}}</span><span style="color: #777;"> . {{datenow | date:'medium'}}</span>
 						<h4>{{readpost.description}}</h4>
 					</div>
-				<div ng-bind-html="readpost.content"></div>
+				<div ta-bind ng-model="readpost.content"></div>
 				<div class="post-details">
 					<div class="tag-div float-left">
 						<ul>

@@ -9,11 +9,11 @@
 
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="../justified-nav.css" rel="stylesheet">
-	<link href="pages/writepost.css" rel="stylesheet">
+	<link href="pages/editpost.css" rel="stylesheet">
 
 </head>
 
-<body ng-controller="writePostCtrl">
+<body ng-controller="editPostCtrl">
 
 		<!-- Nav bar for the application... later will be placed inside a seperate html page to include in index file-->
 	 <nav class="navbar navbar-default navbar-static-top">
@@ -115,22 +115,22 @@
     </nav>
 	<div class="container">
 	<div class="posts-container">
-		<div class="left-container-div col-md-12" ng-controller="writePostCtrl">
+		<div class="left-container-div col-md-12" ng-controller="editPostCtrl">
 			<div class="fixed-height-box-2 col-md-12">
-				<div class="post-div-demo" ng-show="htmlVariable || writepost.title || writepost.description">
+				<div class="post-div-demo" ng-show="htmlVariable || editpost.title || editpost.description">
 					<div class="post-title-demo">
-						<h1>{{writepost.title}}</h1>
+						<h1>{{editpost.title}}</h1>
 						<span><span style="color:black">by</span> {{user.username}}</span><span style="color: #777;"> . {{datenow | date:'medium'}}</span>
-						<h4>{{writepost.description}}</h4>
+						<h4>{{editpost.description}}</h4>
 					</div>
 				</div>
 				<div class="write-post">
 					 <form name="post-form">
-						<input ng-model="writepost.title" type="text" class="form-control" placeholder="Title " required="" autofocus="">
-						<input ng-model="writepost.description" type="text" class="form-control" placeholder="Description " required="">
-						<div text-angular ng-model="writepost.content" name="post-content"></div>
+						<input ng-model="editpost.title" type="text" class="form-control" placeholder="Title " required="" autofocus="">
+						<input ng-model="editpost.description" type="text" class="form-control" placeholder="Description " required="">
+						<div text-angular ng-model="editpost.content" name="post-content"></div>
 						<div class="input-tag-text">
-							<div class="input-tags float-left" ng-repeat="posttag in writepost.tags">
+							<div class="input-tags float-left" ng-repeat="posttag in editpost.tags">
 								<span class="tag" >{{posttag}}</span>
 								<span class="close-btn" ng-click="deleteTag(posttag)">&times;</span>
 							</div>

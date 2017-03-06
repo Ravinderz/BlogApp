@@ -287,12 +287,13 @@ routes.post('/post/editPost/:postId',function(req,res){
 		if(!editPost){
 			res.json({success:false,message : 'Post with id : '+req.params.postId+' could not be found'});
 		}else{
+			console.log(req.body);
 			Post.update(
 				{"_id" : req.params.postId},
 				{
 					content : req.body.content,
 					description : req.body.description,
-					$push : {tags: {$each : req.body.tags}},
+					tags:  req.body.tags,
 					updatedTime : Date.now(),
 
 					

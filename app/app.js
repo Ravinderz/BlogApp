@@ -7,7 +7,8 @@ angular.module('myApp', [
   'myApp.readpost',
   'textAngular',
   'myApp.writepost',
-  'myApp.comingsoon'
+  'myApp.comingsoon',
+  'myApp.editpost'
 ]).
 config(['$routeProvider', function($routeProvider) {
 	
@@ -15,6 +16,8 @@ config(['$routeProvider', function($routeProvider) {
 		redirectTo: '/readpost'
 	}).when("/writeNewPost",{
 		redirectTo: '/writepost',
+	}).when("/editpostbyid",{
+		redirectTo: '/editpost',
 	}).when("/yetToCome",{
 		redirectTo: '/comingsoon',
 	}).otherwise({

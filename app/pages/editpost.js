@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.writepost',['ngRoute','ui.bootstrap']).
+angular.module('myApp.editpost',['ngRoute','ui.bootstrap']).
 config(['$routeProvider',function($routeProvider){
 	$routeProvider.when('/editpost',{
 		templateUrl: 'pages/editpost.html'
@@ -8,8 +8,8 @@ config(['$routeProvider',function($routeProvider){
 }]).controller('editPostCtrl',['$rootScope','$scope','$http','$location',function($rootScope,$scope,$http,$location){
 		
 		var addr = $location.absUrl().split('/');
-		$scope.editpost = {};
-		$scope.editpost.tags=[];
+		/*$scope.editpost = {};
+		$scope.editpost.tags=[];*/
 		$rootScope.isLogged = false;
 		$rootScope.datenow = Date.now();
 		$rootScope.webAddr = addr[0]+"//"+addr[1]+addr[2];
@@ -44,10 +44,15 @@ config(['$routeProvider',function($routeProvider){
 	 	console.log("insde createTags function");
 	 if($scope.tag){
 	 	if($scope.tag.indexOf(",") > -1){
+
 	 		console.log("inside if");
 	 		console.log($scope.tag.split(",")[0]);
+	 		if($scope.editpost.tags.indexOf($scope.tag.split(",")[0]) !== -1){
+	 			console.log("element already exist in array");
+	 		}else{
 	 		$scope.editpost.tags.push($scope.tag.split(",")[0]);
 	 		console.log("done adding to array");
+	 		}
 	 		$scope.tag = "";
 
 	 	}
@@ -57,13 +62,12 @@ config(['$routeProvider',function($routeProvider){
 	 $scope.createTagsOnKeyPress = function(e){
 	 	if(e.which === 13){
 	 		console.log($scope.tag);
-	 		$scope.editpost.tags.push($scope.tag);
-	 		console.log("done adding to array");
-	 		$scope.tag = "";
-	 	}else if(e.which === 32){
-	 		console.log($scope.tag);
-	 		$scope.editpost.tags.push($scope.tag);
-	 		console.log("done adding to array");
+	 		if($scope.editpost.tags.indexOf($scope.tag) !== -1){
+	 			console.log("element already exist in array");
+	 		}else{
+	 			$scope.editpost.tags.push($scope.tag);
+	 			console.log("done adding to array");
+	 		}	 		
 	 		$scope.tag = "";
 	 	}
 	 }
@@ -78,7 +82,6 @@ config(['$routeProvider',function($routeProvider){
 		 e.preventDefault();
 		 console.log($scope.htmlVariable);
 		 $scope.editpost.author = $rootScope.user.username;
-		 $scope.editpost.content = $scope.htmlVariable;
 		 console.log($scope.editpost);
 		 
 		 var token = $rootScope.user.token
@@ -86,20 +89,14 @@ config(['$routeProvider',function($routeProvider){
 		 $http({
 			method: "POST",
 			url : $rootScope.webAddr+"/api/v1.0/post/editPost/"+postId,
+			data : angular.toJson($scope.editpost),
 			headers:{
 				'Content-Type':'application/json',
 				'x-access-token': token
 			}
 		}).then(function(response){
-			$scope.editpost = response.data.doc[0];
-			console.log(response.data.doc[0]);
-			for(var i = 0; i < $scope.editpost.likedBy.length;i++){
-			if($rootScope.user._id === $scope.editpost.likedBy[i]){
-					console.log("user liked the post");
-					$scope.hasUserLikedPost = true;
-					$scope.editpost = "";
-		}
-		}
+			$scope.editpost = "";
+			console.log(response.message);
 		});
 	 }
 		
