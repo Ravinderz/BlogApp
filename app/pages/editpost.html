@@ -128,7 +128,7 @@
 					 <form name="post-form">
 						<input ng-model="writepost.title" type="text" class="form-control" placeholder="Title " required="" autofocus="">
 						<input ng-model="writepost.description" type="text" class="form-control" placeholder="Description " required="">
-						<div text-angular ng-model="htmlVariable" name="post-content"></div>
+						<div text-angular ng-model="writepost.content" name="post-content"></div>
 						<div class="input-tag-text">
 							<div class="input-tags float-left" ng-repeat="posttag in writepost.tags">
 								<span class="tag" >{{posttag}}</span>

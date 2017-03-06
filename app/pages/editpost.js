@@ -2,14 +2,14 @@
 
 angular.module('myApp.writepost',['ngRoute','ui.bootstrap']).
 config(['$routeProvider',function($routeProvider){
-	$routeProvider.when('/writepost',{
-		templateUrl: 'pages/writepost.html'
+	$routeProvider.when('/editpost',{
+		templateUrl: 'pages/editpost.html'
 	});
-}]).controller('writePostCtrl',['$rootScope','$scope','$http','$location',function($rootScope,$scope,$http,$location){
+}]).controller('editPostCtrl',['$rootScope','$scope','$http','$location',function($rootScope,$scope,$http,$location){
 		
 		var addr = $location.absUrl().split('/');
-		$scope.writepost = {};
-		$scope.writepost.tags=[];
+		$scope.editpost = {};
+		$scope.editpost.tags=[];
 		$rootScope.isLogged = false;
 		$rootScope.datenow = Date.now();
 		$rootScope.webAddr = addr[0]+"//"+addr[1]+addr[2];
@@ -19,7 +19,26 @@ config(['$routeProvider',function($routeProvider){
 		 $rootScope.isLogged = true;
 		 $rootScope.user = angular.fromJson(sessionStorage.getItem("user"));
 	 }
+
+	 var postId = $location.search().pid;
+		console.log("postid in readpost",postId);
 	 
+	 $http({
+			method: "POST",
+			url : $rootScope.webAddr+"/api/v1.0/post/findPostById/"+postId,
+			header:{
+				'Content-Type':'application/json'
+			}
+		}).then(function(response){
+			$scope.editpost = response.data.doc[0];
+			console.log(response.data.doc[0]);
+			for(var i = 0; i < $scope.editpost.likedBy.length;i++){
+			if($rootScope.user._id === $scope.editpost.likedBy[i]){
+					console.log("user liked the post");
+					$scope.hasUserLikedPost = true;
+		}
+		}
+		});
 
 	 $scope.createTags = function(){
 	 	console.log("insde createTags function");
@@ -27,7 +46,7 @@ config(['$routeProvider',function($routeProvider){
 	 	if($scope.tag.indexOf(",") > -1){
 	 		console.log("inside if");
 	 		console.log($scope.tag.split(",")[0]);
-	 		$scope.writepost.tags.push($scope.tag.split(",")[0]);
+	 		$scope.editpost.tags.push($scope.tag.split(",")[0]);
 	 		console.log("done adding to array");
 	 		$scope.tag = "";
 
@@ -38,12 +57,12 @@ config(['$routeProvider',function($routeProvider){
 	 $scope.createTagsOnKeyPress = function(e){
 	 	if(e.which === 13){
 	 		console.log($scope.tag);
-	 		$scope.writepost.tags.push($scope.tag);
+	 		$scope.editpost.tags.push($scope.tag);
 	 		console.log("done adding to array");
 	 		$scope.tag = "";
 	 	}else if(e.which === 32){
 	 		console.log($scope.tag);
-	 		$scope.writepost.tags.push($scope.tag);
+	 		$scope.editpost.tags.push($scope.tag);
 	 		console.log("done adding to array");
 	 		$scope.tag = "";
 	 	}
@@ -51,31 +70,36 @@ config(['$routeProvider',function($routeProvider){
 	 
 	 $scope.deleteTag = function(posttag){
 	 	console.log(posttag);
-	 	var index = $scope.writepost.tags.indexOf(posttag);
- 		$scope.writepost.tags.splice(index, 1);
+	 	var index = $scope.editpost.tags.indexOf(posttag);
+ 		$scope.editpost.tags.splice(index, 1);
 	 }
 
 	 $scope.submitPost = function(e){
 		 e.preventDefault();
 		 console.log($scope.htmlVariable);
-		 $scope.writepost.author = $rootScope.user.username;
-		 $scope.writepost.content = $scope.htmlVariable;
-		 console.log($scope.writepost);
+		 $scope.editpost.author = $rootScope.user.username;
+		 $scope.editpost.content = $scope.htmlVariable;
+		 console.log($scope.editpost);
 		 
 		 var token = $rootScope.user.token
-		$http({
+
+		 $http({
 			method: "POST",
-			url : $rootScope.webAddr+"/api/v1.0/post/createPost",
-			data : angular.toJson($scope.writepost),
-			headers : {
-				'Content-Type' : 'application/json',
+			url : $rootScope.webAddr+"/api/v1.0/post/editPost/"+postId,
+			headers:{
+				'Content-Type':'application/json',
 				'x-access-token': token
 			}
 		}).then(function(response){
-			$scope.writepost = "";
-			$scope.htmlVariable = "";
-			//$scope.readpost = response.data.doc;
-			console.log(response.data);
+			$scope.editpost = response.data.doc[0];
+			console.log(response.data.doc[0]);
+			for(var i = 0; i < $scope.editpost.likedBy.length;i++){
+			if($rootScope.user._id === $scope.editpost.likedBy[i]){
+					console.log("user liked the post");
+					$scope.hasUserLikedPost = true;
+					$scope.editpost = "";
+		}
+		}
 		});
 	 }
 		
