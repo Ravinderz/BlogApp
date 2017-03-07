@@ -150,6 +150,14 @@ routes.get('/post/getTopTenPosts',function(req,res){
 	});
 });
 
+//to get top 10 trending posts
+routes.get('/post/getTopTenTrendingPosts',function(req,res){
+	Post.find({'isActive':true}).limit(10).sort({views:-1}).exec(function(err,posts){
+		console.log(posts);
+		res.json(posts);
+	});
+});
+
 // to find a post using id
 routes.post('/post/findPostById/:postId',function(req,res){
 	
@@ -205,6 +213,27 @@ routes.post('/post/likeComment/:commentId',function(req,res){
 					function(err,doc){
 						if(err) throw err;
 						return res.json({success:true,message:'comment liked successfully',doc:doc});
+					}
+				);
+			}
+	});
+});
+
+// to update views for a post
+routes.post('/post/updateViews/:postId',function(req,res){
+	console.log(req.body.userId);
+	Post.find({'_id':req.params.postId},function(err,postDoc){
+			if(err) throw err;
+			if(!postDoc){
+				res.json({success:false,message:'Post with id : '+req.params.postId+' could not be found'});
+			}else{
+				Post.findOneAndUpdate(
+					{'_id':req.params.postId},
+					{$inc:{"views":1}},
+					{upsert:false,new:true},
+					function(err,doc){
+						if(err) throw err;
+						return res.json({success:true,message:'post view updated successfully'});
 					}
 				);
 			}

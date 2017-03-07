@@ -40,7 +40,19 @@ config(['$routeProvider',function($routeProvider){
 		}
 		}
 		});
-		
+
+		//for updated post views
+		$http({
+			method: "POST",
+			url : $rootScope.webAddr+"/api/v1.0/post/updateViews/"+postId,
+			data : {},
+			header:{
+				'Content-Type':'application/json'
+			}
+		}).then(function(response){
+			console.log(response);	
+		});
+
 		
 		
 		// for liking a post

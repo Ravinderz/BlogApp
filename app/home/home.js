@@ -3,7 +3,7 @@
 angular.module('myApp.home',['ngRoute','ui.bootstrap']).
 config(['$routeProvider',function($routeProvider){
 	$routeProvider.when('/home',{
-		templateUrl: 'home/home_new.html',
+		templateUrl: 'home/home.html',
 		controller: 'homeCtrl'
 	});
 }]).
@@ -14,6 +14,7 @@ controller('homeCtrl',['$rootScope','$scope','$http','$location',function($rootS
 
 	 $scope.posts = {};
 	 $scope.recentPosts = {};
+	 $scope.trendingPosts = {};
 	 $rootScope.webAddr = addr[0]+"//"+addr[1]+addr[2];
 	 $rootScope.isLogged = false;
 	 $rootScope.user = {};
@@ -46,6 +47,17 @@ controller('homeCtrl',['$rootScope','$scope','$http','$location',function($rootS
 			$scope.recentPosts = response.data;
 			console.log(response.data);
 		});	
+
+	$http({
+			method: "GET",
+			url : $rootScope.webAddr+"/api/v1.0/post/getTopTenTrendingPosts",
+			header:{
+				'Content-Type':'application/json'
+			}
+		}).then(function(response){
+			$scope.trendingPosts = response.data;
+			console.log(response.data);
+		});		
 		
 		
 

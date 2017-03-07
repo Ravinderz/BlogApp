@@ -7,6 +7,7 @@ module.exports = mongoose.model('post', new Schema({
 	author : String,
 	content : String,
 	likes : Number,
+	views : {type:Number,default:0},
 	likedBy : [{type:Schema.Types.ObjectId,ref:'User'}],
 	createdTime : {type : Date,default: Date.now()},
 	updatedTime : {type : Date, default: Date.now()},
