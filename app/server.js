@@ -15,8 +15,20 @@ var Post = require('./models/Post');
 var Comment = require('./models/Comment');
 var morgan = require('morgan');
 var ObjectId = require('mongoose').Types.ObjectId;
+var nodemailer = require("nodemailer");
+const uuidV1 = require('uuid/v1');
 	
 var app = express();
+
+//for sending mail 
+var smtpTransport = nodemailer.createTransport({
+    service: "gmail",
+    host: "smtp.gmail.com",
+    auth: {
+        user: config.usermail,
+        pass: config.pass
+    }
+});
 
 var db = mongoose.connect(config.database); // connect to database
 app.set('superSecret', config.secret); // secret variable
@@ -74,7 +86,7 @@ routes.get('/setup',function(req,res){
 routes.post('/authenticate',function(req,res){
 	User.findOne({
 	email : req.body.email
-	},function(err,user){
+	},{'isActive':true},function(err,user){
 		if(err) throw err;
 		if(!user){
 			res.json({success:false,message : 'Authentication failed! User not found'});
@@ -105,13 +117,15 @@ routes.post('/authenticate',function(req,res){
 });
 
 routes.post('/register',function(req,res){
-	
+	var host = req.body.host;
+	var token = uuidV1();
 	var newUser = new User({
 		firstName : req.body.firstName,
 		lastName : req.body.lastName,
 		email : req.body.email,
 		password : req.body.password,
-		phone : req.body.phone
+		phone : req.body.phone,
+		validateToken : token
 	});
 	
 	newUser.save(function(err){
@@ -123,9 +137,40 @@ routes.post('/register',function(req,res){
 				}
 			}
 		};
-		res.json({success:true, message : 'User registered successfully'});
+		sendEmail(req.body.firstName,req.body.lastName,req.body.email,token,host,function(mailResult){
+			if(mailResult){
+				res.json({success:true, message : 'A mail has been sent to your registered email. Please verify yourself by clicking the link in the mail.'});
+			}else{
+				res.json({success:false, message : 'failed to send the mail. Please try again'});
+			}
+		});
+		
 	});
 });
+
+//to send verification mail to the registered user
+function sendEmail(firstName,lastName,email,validateToken,host,callback){
+	var mailResult = false;
+	var emailText = '<h3>Hi '+firstName+' '+lastName+'</h3><br><br><p>Please click the below link to verify your account</p><br><br><a href='+host+'/api/v1.0/validate?email='+email+'&tk='+validateToken+'>click here </a><br><h4>Regards</h4><br><h4>MadOverWords</h4>';
+	var mailOptions={
+   to : email,
+   subject : 'MadOverWords verification email',
+   text : emailText
+}
+console.log(mailOptions);
+smtpTransport.sendMail(mailOptions, function(error, response){
+	if(error){
+		console.log("inside if");
+		console.log(error);
+	}else{
+		console.log("inside else");
+		console.log("Message sent: " + response.data.message);
+		mailResult =  true;
+	}
+	});
+
+callback(mailResult);
+}
 
 // to get all the posts till date
 routes.get('/post/getAllPosts',function(req,res){
@@ -343,10 +388,10 @@ routes.post('/post/editPost/:postId',function(req,res){
 // to delete a post using ID
 routes.delete('/post/deletePost/:postId',function(req,res){
 	
-	Post.find({'comments._id': req.params.postId},{'isActive':true},function(err,postDoc){
+	Post.find({'_id': req.params.postId},{'isActive':true},function(err,postDoc){
 			if(err) throw err;
 			if(!postDoc){
-				res.json({success:false,message:'Comment with id : '+req.params.commentId+' could not be found'});
+				res.json({success:false,message:'post with id : '+req.params.postId+' could not be found'});
 			}else{
 				Post.update(
 					{'_id': req.params.postId},
@@ -354,7 +399,7 @@ routes.delete('/post/deletePost/:postId',function(req,res){
 					updatedTime : Date.now()},
 					function(err,doc){
 						if(err) throw err;
-						return res.json({success:true,message:'comment has been successfully deleted'});
+						return res.json({success:true,message:'post has been successfully deleted'});
 					}
 				);
 			}

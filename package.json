@@ -1,8 +1,8 @@
 {
-  "name": "BlogApp",
+  "name": "MadOverWords",
   "private": true,
   "version": "0.0.0",
-  "description": "A starter project for AngularJS",
+  "description": "A blog with MEAN stack",
   "repository": "https://github.com/ravinderz/BlogApp",
   "license": "MIT",
   "devDependencies": {
@@ -27,6 +27,8 @@
     "karma-firefox-launcher": "^0.1.7",
     "karma-jasmine": "^0.3.8",
     "karma-junit-reporter": "^0.4.1",
+    "nodemailer":"latest",
+    "uuid":"latest",
     "protractor": "^4.0.9"
   },
   "scripts": {
@@ -66,6 +68,8 @@
     "karma-firefox-launcher": "^0.1.7",
     "karma-jasmine": "^0.3.8",
     "karma-junit-reporter": "^0.4.1",
+    "nodemailer":"latest",
+    "uuid":"latest",
     "protractor": "^4.0.9"
   }
 }

@@ -229,6 +229,7 @@ config(['$routeProvider',function($routeProvider){
 		e.preventDefault();
 		console.log("inside scope.register function");
 		console.log(angular.toJson($scope.user));
+		$scope.user.host = $rootScope.webAddr;
 		$http({
 			method: "POST",
 			url : $rootScope.webAddr+"/api/v1.0/register",
@@ -237,6 +238,7 @@ config(['$routeProvider',function($routeProvider){
 				'Content-Type' : 'application/json'
 			}
 		}).then(function(response){
+			console.log(response);
 			$scope.message = "registration successfull";
 			//$uibModalInstance.close();
 		});

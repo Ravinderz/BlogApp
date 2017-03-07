@@ -7,5 +7,6 @@ module.exports = mongoose.model('user', new Schema({
 	email : String,
 	password : String,
 	phone : {type:Number},
-	isActive : {type:Boolean , default:true}
+	validateToken : String,
+	isActive : {type:Boolean , default:false}
 }));

@@ -153,6 +153,7 @@ controller('homeCtrl',['$rootScope','$scope','$http','$location',function($rootS
 		e.preventDefault();
 		console.log("inside scope.register function");
 		console.log(angular.toJson($scope.user));
+		$scope.user.host = $rootScope.webAddr;
 		$http({
 			method: "POST",
 			url : $rootScope.webAddr+"/api/v1.0/register",
@@ -161,8 +162,9 @@ controller('homeCtrl',['$rootScope','$scope','$http','$location',function($rootS
 				'Content-Type' : 'application/json'
 			}
 		}).then(function(response){
+			console.log(response);
 			$scope.message = "registration successfull";
-			//$uibModalInstance.close();
+			
 		});
 	};
 }]).controller('logoutCtrl',['$rootScope','$scope',function($rootScope,$scope){
