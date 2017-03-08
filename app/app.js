@@ -8,7 +8,8 @@ angular.module('myApp', [
   'textAngular',
   'myApp.writepost',
   'myApp.comingsoon',
-  'myApp.editpost'
+  'myApp.editpost',
+  'myApp.validateuser',
 ]).
 config(['$routeProvider', function($routeProvider) {
 	
@@ -18,6 +19,8 @@ config(['$routeProvider', function($routeProvider) {
 		redirectTo: '/writepost',
 	}).when("/editpostbyid",{
 		redirectTo: '/editpost',
+	}).when("/validate",{
+		redirectTo: '/validateuser',
 	}).when("/yetToCome",{
 		redirectTo: '/comingsoon',
 	}).otherwise({

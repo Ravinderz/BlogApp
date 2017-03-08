@@ -19,6 +19,7 @@ var nodemailer = require("nodemailer");
 const uuidV1 = require('uuid/v1');
 	
 var app = express();
+var mailResult = false;
 
 //for sending mail 
 var smtpTransport = nodemailer.createTransport({
@@ -137,40 +138,65 @@ routes.post('/register',function(req,res){
 				}
 			}
 		};
-		sendEmail(req.body.firstName,req.body.lastName,req.body.email,token,host,function(mailResult){
-			if(mailResult){
-				res.json({success:true, message : 'A mail has been sent to your registered email. Please verify yourself by clicking the link in the mail.'});
-			}else{
+
+		//to send verification mail to the registered user
+		function sendEmail(firstName,lastName,email,validateToken,host){
+			var emailText = '<h3>Hi '+firstName+' '+lastName+'</h3><br><p>Please click the below link to verify your account</p><br><a href='+host+'/api/v1.0/validate?email='+email+'&tk='+validateToken+'>click here </a><br><h4>Regards</h4><h4>MadOverWords</h4>';
+			var mailOptions={
+						   to : email,
+						   subject : 'MadOverWords verification email',
+						   html : emailText
+						}
+		console.log(mailOptions);
+		smtpTransport.sendMail(mailOptions, function(error, response){
+			if(error){
+				console.log("inside if");
+				console.log(error);
 				res.json({success:false, message : 'failed to send the mail. Please try again'});
+			}else{
+				console.log("inside else");
+				mailResult =  true;
+				res.json({success:true, message : 'A mail has been sent to your registered email. Please verify yourself by clicking the link in the mail.'});
 			}
-		});
-		
+			});
+		}
+		sendEmail(req.body.firstName,req.body.lastName,req.body.email,token,host);
 	});
 });
 
-//to send verification mail to the registered user
-function sendEmail(firstName,lastName,email,validateToken,host,callback){
-	var mailResult = false;
-	var emailText = '<h3>Hi '+firstName+' '+lastName+'</h3><br><br><p>Please click the below link to verify your account</p><br><br><a href='+host+'/api/v1.0/validate?email='+email+'&tk='+validateToken+'>click here </a><br><h4>Regards</h4><br><h4>MadOverWords</h4>';
-	var mailOptions={
-   to : email,
-   subject : 'MadOverWords verification email',
-   text : emailText
-}
-console.log(mailOptions);
-smtpTransport.sendMail(mailOptions, function(error, response){
-	if(error){
-		console.log("inside if");
-		console.log(error);
-	}else{
-		console.log("inside else");
-		console.log("Message sent: " + response.data.message);
-		mailResult =  true;
-	}
+// to validate a user from the email link
+routes.post('/validateuser',function(req,res){
+	User.findOne({
+	email : req.body.email
+	},{'isActive':true},function(err,user){
+		if(err) throw err;
+		if(!user){
+			res.json({success:false,message : 'Authentication failed! User not found'});
+		}else if(user){
+			
+			 // check if password matches
+			 console.log(user.email);
+			if(user.validateToken != req.body.validateToken){
+			res.json({success:false, message : 'Authentication failed! invalid username and token'});
+			}else{
+				
+				 // if user is found and password is right
+				// create a token
+				var token = jwt.sign(user,app.get('superSecret'),{
+					expiresIn : '1440m' // 24 hours
+				});
+				
+				// return the information including token as JSON
+				res.json({
+					success:true,
+					message : 'token generated successfully',
+					obj : user,
+					token : token
+				});
+			}
+		}
 	});
-
-callback(mailResult);
-}
+});
 
 // to get all the posts till date
 routes.get('/post/getAllPosts',function(req,res){
