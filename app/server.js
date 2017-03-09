@@ -86,14 +86,16 @@ routes.get('/setup',function(req,res){
 //authenticate a user
 routes.post('/authenticate',function(req,res){
 	User.findOne({
-	email : req.body.email
-	},{'isActive':true},function(err,user){
+	email : req.body.email,
+	'isActive':true
+	},function(err,user){
 		if(err) throw err;
 		if(!user){
 			res.json({success:false,message : 'Authentication failed! User not found'});
 		}else if(user){
 			
 			 // check if password matches
+			 console.log(user);
 			 console.log(user.email);
 			if(user.password != req.body.password){
 			res.json({success:false, message : 'Authentication failed! invalid username and password'});
@@ -128,47 +130,51 @@ routes.post('/register',function(req,res){
 		phone : req.body.phone,
 		validateToken : token
 	});
-	
-	newUser.save(function(err){
-		if(err) if(err) {
-			console.log('Error Inserting New Data');
-			if (err.name == 'ValidationError') {
-				for (field in err.errors) {
-				console.log(err.errors[field].message); 
+
+			newUser.save(function(err){
+			 if(err) {
+				console.log('Error Inserting New Data');
+				if (err.name === 'ValidationError') {
+					for (field in err.errors) {
+					console.log(err.errors[field].message); 
+					}
+				}
+				if(err.name === 'MongoError' && err.code === 11000){
+					console.log("mongo error");
+					return res.json({success:false,message:"email already exists"});
 				}
 			}
-		};
 
-		//to send verification mail to the registered user
-		function sendEmail(firstName,lastName,email,validateToken,host){
-			var emailText = '<h3>Hi '+firstName+' '+lastName+'</h3><br><p>Please click the below link to verify your account</p><br><a href='+host+'/api/v1.0/validate?email='+email+'&tk='+validateToken+'>click here </a><br><h4>Regards</h4><h4>MadOverWords</h4>';
-			var mailOptions={
-						   to : email,
-						   subject : 'MadOverWords verification email',
-						   html : emailText
-						}
-		console.log(mailOptions);
-		smtpTransport.sendMail(mailOptions, function(error, response){
-			if(error){
-				console.log("inside if");
-				console.log(error);
-				res.json({success:false, message : 'failed to send the mail. Please try again'});
-			}else{
-				console.log("inside else");
-				mailResult =  true;
-				res.json({success:true, message : 'A mail has been sent to your registered email. Please verify yourself by clicking the link in the mail.'});
+			//to send verification mail to the registered user
+			function sendEmail(firstName,lastName,email,validateToken,host){
+				var emailText = '<h3>Hi '+firstName+' '+lastName+'</h3><br><p>Please click the below link to verify your account</p><br><a href='+host+'/api/v1.0/validate?email='+email+'&tk='+validateToken+'>click here </a><br><h4>Regards</h4><h4>MadOverWords</h4>';
+				var mailOptions={
+							   to : email,
+							   subject : 'MadOverWords verification email',
+							   html : emailText
+							}
+			console.log(mailOptions);
+			smtpTransport.sendMail(mailOptions, function(error, response){
+				if(error){
+					console.log("inside if");
+					console.log(error);
+					res.json({success:false, message : 'failed to send the mail. Please try again'});
+				}else{
+					console.log("inside else");
+					mailResult =  true;
+					res.json({success:true, message : 'A mail has been sent to your registered email. Please verify yourself by clicking the link in the mail.'});
+				}
+				});
 			}
-			});
-		}
-		sendEmail(req.body.firstName,req.body.lastName,req.body.email,token,host);
-	});
+			sendEmail(req.body.firstName,req.body.lastName,req.body.email,token,host);
+		});
 });
 
 // to validate a user from the email link
 routes.post('/validateuser',function(req,res){
 	User.findOne({
 	email : req.body.email
-	},{'isActive':true},function(err,user){
+	},{'isActive':false},function(err,user){
 		if(err) throw err;
 		if(!user){
 			res.json({success:false,message : 'Authentication failed! User not found'});
@@ -180,19 +186,22 @@ routes.post('/validateuser',function(req,res){
 			res.json({success:false, message : 'Authentication failed! invalid username and token'});
 			}else{
 				
-				 // if user is found and password is right
+				 // if user is found and token is right
 				// create a token
 				var token = jwt.sign(user,app.get('superSecret'),{
 					expiresIn : '1440m' // 24 hours
 				});
-				
-				// return the information including token as JSON
-				res.json({
-					success:true,
-					message : 'token generated successfully',
-					obj : user,
-					token : token
-				});
+
+				// make user active
+				User.findOneAndUpdate(
+					{'email':req.body.email},
+					{isActive : true},
+					{upsert:false,new:true},
+					function(err,doc){
+						if(err) throw err;
+						return res.json({success:true,message:'user validated successfully',doc:doc,token:token});
+					}
+				);
 			}
 		}
 	});
@@ -355,6 +364,7 @@ routes.post('/post/createPost',function(req,res){
 		description : req.body.description,
 		author : req.body.author,
 		content : req.body.content,
+		authorId : req.body.authorId,
 		likes : 0,
 		createdTime : Date.now(),
 		updatedTime : Date.now(),
@@ -378,6 +388,13 @@ routes.post('/post/createPost',function(req,res){
 	});
 });
 
+//to get posts by particular user
+routes.get('/post/getPostsByUser/:userId',function(req,res){
+	Post.find({'isActive':true,'authorId':req.params.userId}).exec(function(err,posts){
+		console.log(posts);
+		res.json(posts);
+	});
+});
 
 //to edit a post using postId
 routes.post('/post/editPost/:postId',function(req,res){

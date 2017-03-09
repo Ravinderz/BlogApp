@@ -19,7 +19,7 @@ config(['$routeProvider',function($routeProvider){
 	 }
 
 	 var postId = $location.search().pid;
-		console.log("postid in readpost",postId);
+		console.log("postid in editpost",postId);
 	 
 	 $http({
 			method: "POST",
@@ -197,9 +197,12 @@ config(['$routeProvider',function($routeProvider){
 				'Content-Type' : 'application/json'
 			}
 		}).then(function(response){
-			console.log(response);
-			$scope.message = "registration successfull";
-			//$uibModalInstance.close();
+			//console.log(response.data);
+			if(response.data.success){
+				$scope.message = "registration successfull";
+			}else{
+				$scope.message = "email already exists in the database";	
+			}
 		});
 	};
 }]).controller('logoutCtrl',['$rootScope','$scope',function($rootScope,$scope){

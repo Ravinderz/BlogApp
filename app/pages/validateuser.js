@@ -29,9 +29,8 @@ config(['$routeProvider',function($routeProvider){
 			method: "POST",
 			url : $rootScope.webAddr+"/api/v1.0/validateuser",
 			data : angular.toJson($scope.loggedUser),
-			headers : {
-				'Content-Type' : 'application/json',
-				'x-access-token': token
+			header : {
+				'Content-Type' : 'application/json'
 			}
 		}).then(function(response){
 			console.log(response.data);

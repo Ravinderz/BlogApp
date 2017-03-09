@@ -59,6 +59,7 @@ config(['$routeProvider',function($routeProvider){
 		 e.preventDefault();
 		 console.log($scope.htmlVariable);
 		 $scope.writepost.author = $rootScope.user.username;
+		 $scope.writepost.authorId = $rootScope.user._id;
 		 $scope.writepost.content = $scope.htmlVariable;
 		 console.log($scope.writepost);
 		 

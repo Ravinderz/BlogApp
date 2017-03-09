@@ -5,6 +5,7 @@ module.exports = mongoose.model('post', new Schema({
 	title : String,
 	description : String,
 	author : String,
+	authorId : {type: Schema.Types.ObjectId,ref:'User'},
 	content : String,
 	likes : Number,
 	views : {type:Number,default:0},

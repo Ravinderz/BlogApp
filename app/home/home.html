@@ -84,7 +84,7 @@
 		<!-- This will display when a user is logged in -->
 		 <div id="navbar" class="navbar-collapse collapse" ng-if="isLogged">
           <ul class="nav navbar-nav navbar-right">
-			<li><a href="#/writeNewPost" target="_self" class="write-article">Write Article</a></li>
+			<li><a href="#!/writeNewPost" target="_self" class="write-article">Write Article</a></li>
             <li>
 				<div class="dropdown">
 					<button class="btn btn-default dropdown-toggle img-dropdown" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -92,7 +92,7 @@
 					<span class="caret"></span>
 					</button>
 					  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" ng-controller="logoutCtrl">
-						<li><span class="username-span">{{user.username}}</span></li>
+						<li><a href="#!/userprofile" target="_self" <span class="username-span">{{user.username}}</span></a></li>
 						<li role="separator" class="divider"></li>
 						<li><a ng-click="logout($event)">logout</a></li>
 					  </ul>
@@ -110,15 +110,15 @@
       <div class="container">
         <div id="sub-navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav sub-navbar-nav">
-            <li><a href="#/home" style="padding-left:0;">Home</a></li>
-           <li><a href="#/yetToCome">Trending</a></li>
-			<li><a href="#/yetToCome">Top Ten</a></li>
-            <li><a href="#/yetToCome">Technology<span class="sr-only">(current)</span></a></li>
-			<li><a href="#/yetToCome">Education</a></li>
-            <li><a href="#/yetToCome">Nature<span class="sr-only">(current)</span></a></li>
-			<li><a href="#/yetToCome">Culture</a></li>
-            <li><a href="#/yetToCome">Entertainment<span class="sr-only">(current)</span></a></li>
-			<li><a href="#/yetToCome">Gaming<span class="sr-only">(current)</span></a></li>
+            <li><a href="#!/home" style="padding-left:0;">Home</a></li>
+           <li><a href="#!/yetToCome">Trending</a></li>
+			<li><a href="#!/yetToCome">Top Ten</a></li>
+            <li><a href="#!/yetToCome">Technology<span class="sr-only">(current)</span></a></li>
+			<li><a href="#!/yetToCome">Education</a></li>
+            <li><a href="#!/yetToCome">Nature<span class="sr-only">(current)</span></a></li>
+			<li><a href="#!/yetToCome">Culture</a></li>
+            <li><a href="#!/yetToCome">Entertainment<span class="sr-only">(current)</span></a></li>
+			<li><a href="#!/yetToCome">Gaming<span class="sr-only">(current)</span></a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

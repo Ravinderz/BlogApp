@@ -10,6 +10,7 @@ angular.module('myApp', [
   'myApp.comingsoon',
   'myApp.editpost',
   'myApp.validateuser',
+  'myApp.profile'
 ]).
 config(['$routeProvider', function($routeProvider) {
 	
@@ -21,6 +22,8 @@ config(['$routeProvider', function($routeProvider) {
 		redirectTo: '/editpost',
 	}).when("/validate",{
 		redirectTo: '/validateuser',
+	}).when("/userprofile",{
+		redirectTo: '/profile',
 	}).when("/yetToCome",{
 		redirectTo: '/comingsoon',
 	}).otherwise({
