@@ -1,12 +1,12 @@
 'use strict';
 
-angular.module('myApp.profile',['ngRoute','ui.bootstrap']).
+angular.module('myApp.profile',['ngRoute','ui.bootstrap','ngMaterial']).
 config(['$routeProvider',function($routeProvider){
 	$routeProvider.when('/profile',{
 		templateUrl: 'pages/profile.html',
 		controller: 'profileCtrl'
 	});
-}]).controller('profileCtrl',['$rootScope','$scope','$http','$location',function($rootScope,$scope,$http,$location){
+}]).controller('profileCtrl',['$rootScope','$scope','$http','$location','$mdDialog',function($rootScope,$scope,$http,$location,$mdDialog){
 		
 		var addr = $location.absUrl().split('/');
 		$rootScope.datenow = Date.now();
@@ -36,6 +36,27 @@ config(['$routeProvider',function($routeProvider){
 		console.log("postid",postId);
 		$location.path('/editpostbyid').search({pid:postId});
 	}	
+
+	console.log($mdDialog);
+
+	$scope.showConfirm = function(ev) {
+    // Appending dialog to document.body to cover sidenav in docs app
+    var confirm = $mdDialog.confirm()
+          .title('Are you Sure?')
+          .textContent('Are you sure you want to delete this post')
+          .ariaLabel('Lucky day')
+          .targetEvent(ev)
+          .ok('delete')
+          .cancel('cancel');
+
+    $mdDialog.show(confirm).then(function() {
+      $scope.status = 'post has been successfully deleted';
+      console.log($scope.status);
+    }, function() {
+      $scope.status = 'not sure to cancel';
+      console.log($scope.status);
+    });
+  };
 
 }]).controller('logoutCtrl',['$rootScope','$scope',function($rootScope,$scope){
 
