@@ -37,8 +37,6 @@ config(['$routeProvider',function($routeProvider){
 		$location.path('/editpostbyid').search({pid:postId});
 	}	
 
-	console.log($mdDialog);
-
 	$scope.showConfirm = function(ev) {
     // Appending dialog to document.body to cover sidenav in docs app
     var confirm = $mdDialog.confirm()
@@ -50,6 +48,7 @@ config(['$routeProvider',function($routeProvider){
           .cancel('cancel');
 
     $mdDialog.show(confirm).then(function() {
+    	
       $scope.status = 'post has been successfully deleted';
       console.log($scope.status);
     }, function() {

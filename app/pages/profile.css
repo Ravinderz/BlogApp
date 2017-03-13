@@ -5,7 +5,6 @@
 
 #navbar{
 	border-bottom: 1px solid rgba(0,0,0,.0785);
-	border-color: #e7e7e7;
 }
 
 .navbar{
@@ -126,6 +125,7 @@
 	padding:0;
 	padding-bottom: 3px;
 	border-color:transparent;
+	background-color: transparent;
 	margin-top: 7px;
     margin-right: 3px;
 }
