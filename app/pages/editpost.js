@@ -78,10 +78,8 @@ config(['$routeProvider',function($routeProvider){
 
 	 $scope.submitPost = function(e){
 		 e.preventDefault();
-		 console.log($scope.htmlVariable);
 		 $scope.editpost.author = $rootScope.user.username;
 		 console.log($scope.editpost);
-		 
 		 var token = $rootScope.user.token
 
 		 $http({
@@ -93,8 +91,8 @@ config(['$routeProvider',function($routeProvider){
 				'x-access-token': token
 			}
 		}).then(function(response){
-			$scope.editpost = "";
-			console.log(response.message);
+			//$scope.editpost = "";
+			console.log(response);
 		});
 	 }
 		

@@ -37,8 +37,9 @@ config(['$routeProvider',function($routeProvider){
 		$location.path('/editpostbyid').search({pid:postId});
 	}	
 
-	$scope.showConfirm = function(ev) {
+	$scope.showConfirm = function(ev,postId,key) {
     // Appending dialog to document.body to cover sidenav in docs app
+    console.log(postId);
     var confirm = $mdDialog.confirm()
           .title('Are you Sure?')
           .textContent('Are you sure you want to delete this post')
@@ -48,9 +49,22 @@ config(['$routeProvider',function($routeProvider){
           .cancel('cancel');
 
     $mdDialog.show(confirm).then(function() {
-    	
-      $scope.status = 'post has been successfully deleted';
-      console.log($scope.status);
+
+    	 $http({
+			method: "DELETE",
+			url : $rootScope.webAddr+"/api/v1.0/post/deletePost/"+postId,
+			headers:{
+				'Content-Type':'application/json',
+				'x-access-token': $rootScope.user.token
+			}
+		}).then(function(response){
+			console.log(response.data);
+      		$scope.posts.splice(key,1);
+      		$scope.status = 'post has been successfully deleted';
+      		console.log($scope.status);
+			
+		});
+      
     }, function() {
       $scope.status = 'not sure to cancel';
       console.log($scope.status);

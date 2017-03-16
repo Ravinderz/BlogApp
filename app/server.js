@@ -407,7 +407,9 @@ routes.post('/post/editPost/:postId',function(req,res){
 			console.log(req.body);
 			Post.update(
 				{"_id" : req.params.postId},
-				{
+				{	
+					title : req.body.title,
+					description : req.body.description,
 					content : req.body.content,
 					description : req.body.description,
 					tags:  req.body.tags,

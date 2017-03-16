@@ -96,18 +96,18 @@
                 <div class="col-md-12">
                     <h2>Your Posts</h2>
                     <div class="post-container">
-                        <div class="post-div" ng-repeat="post in posts" >
-                            <div class="post-div-header"><h3 class="float-left">{{post.title}}</h3><span class="float-right action-btns"><i class="fa fa-edit" ng-click="editPost(post._id)"></i><i class="fa fa-times" ng-click="showConfirm($event)"></i></span>
+                        <div class="post-div" ng-repeat="(key,value) in posts" >
+                            <div class="post-div-header"><h3 class="float-left">{{value.title}}</h3><span class="float-right action-btns"><i class="fa fa-edit" ng-click="editPost(value._id)"></i><i class="fa fa-times" ng-click="showConfirm($event,value._id,key)"></i></span>
                             <div class="clear-fix"></div>
                             </div>
-                            <span><span style="color:black">by</span> {{post.author}}</span><span style="color: #777;"> . {{post.createdTime | date:'medium'}}</span><br/>
+                            <span><span style="color:black">by</span> {{value.author}}</span><span style="color: #777;"> . {{value.createdTime | date:'medium'}}</span><br/>
                             <br/>
-                            <p class="post-desc">{{post.description}}</p>
+                            <p class="post-desc">{{value.description}}</p>
                             <p><i>read more . . .</i></p>
                             <div class="post-details">
                                 <div class="tag-div float-left">
                                     <ul>
-                                        <li ng-repeat="tag in post.tags">{{tag}}</li>
+                                        <li ng-repeat="tag in value.tags">{{tag}}</li>
                                     </ul>
                                 </div>
                                 <div class="clear-fix"></div>
