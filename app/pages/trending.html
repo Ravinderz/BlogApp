@@ -9,7 +9,7 @@
 
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="justified-nav.css" rel="stylesheet">
-	<link href="home/home.css" rel="stylesheet">
+	<link href="pages/trending.css" rel="stylesheet">
 	<script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -23,7 +23,7 @@
 
 </head>
 
-<body ng-controller="homeCtrl">
+<body ng-controller="trendingCtrl">
 
 		<!-- Nav bar for the application... later will be placed inside a seperate html page to include in index file-->
 	 <nav class="navbar navbar-default navbar-static-top">
@@ -125,8 +125,8 @@
     </nav>
 	<div class="container">
 	<div class="posts-container">
-		<div class="left-container-div col-md-8" ng-controller="openPostCtrl">
-			<div class="post-div" ng-repeat="post in posts" ng-click="openPost(post._id)">
+		<div class="left-container-div col-md-12" ng-controller="openPostCtrl">
+			<div class="post-div" ng-repeat="post in trendingPosts" ng-click="openPost(post._id)">
 				<h3>{{post.title}}</h3>
 				<span><span style="color:black">by</span> {{post.author}}</span><span style="color: #777;"> . {{post.createdTime | date:'medium'}}</span>
 				<p class="post-desc">{{post.description}}</p>
@@ -144,20 +144,6 @@
 					</div>
 					<div class="clear-fix"></div>
 				</div>
-			</div>
-		</div>
-		<div class="right-container-div col-md-4" ng-controller="openPostCtrl">
-			<div class="right-sub-container-div">
-				<p class="recent-post-heading">Recent posts</p>
-				<ul class="recent-post-ul" >
-					<li ng-repeat="recentPost in recentPosts" ng-click="openPost(recentPost._id)"><div class="recent-post-li-div">{{recentPost.title}}<br><span>{{recentPost.author}}</span></div></li>
-				</ul>
-			</div>
-			<div class="right-sub-container-div" ng-controller="openPostCtrl">
-				<p class="recent-post-heading">Trending posts</p>
-				<ul class="recent-post-ul" >
-					<li ng-repeat="trendingPost in trendingPosts" ng-click="openPost(trendingPost._id)"><div class="recent-post-li-div">{{trendingPost.title}}<br><span>{{trendingPost.author}}</span></div></li>
-				</ul>
 			</div>
 		</div>
   </div>

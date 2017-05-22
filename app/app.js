@@ -10,7 +10,8 @@ angular.module('myApp', [
   'myApp.comingsoon',
   'myApp.editpost',
   'myApp.validateuser',
-  'myApp.profile'
+  'myApp.profile',
+  'myApp.trending'
 ]).
 config(['$routeProvider', function($routeProvider) {
 	
@@ -26,6 +27,8 @@ config(['$routeProvider', function($routeProvider) {
 		redirectTo: '/profile',
 	}).when("/yetToCome",{
 		redirectTo: '/comingsoon',
+	}).when("/trending",{
+		redirectTo: '/trendingposts',
 	}).otherwise({
 		redirectTo: '/home'
 	});
