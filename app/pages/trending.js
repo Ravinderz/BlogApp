@@ -2,7 +2,7 @@
 
 angular.module('myApp.trending',['ngRoute','ui.bootstrap']).
 config(['$routeProvider',function($routeProvider){
-	$routeProvider.when('/trendingposts',{
+	$routeProvider.when('/trending',{
 		templateUrl: 'pages/trending.html',
 		controller: 'trendingCtrl'
 	});
@@ -159,7 +159,7 @@ controller('trendingCtrl',['$rootScope','$scope','$http','$location',function($r
 	$scope.openPost = function(id){
 		var postId = id;
 		console.log("postid",postId);
-		$location.path('/readpostbyid').search({pid:postId});
+		$location.path('/readpost').search({pid:postId});
 	}
 	
 }])

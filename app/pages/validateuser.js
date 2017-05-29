@@ -2,7 +2,7 @@
 
 angular.module('myApp.validateuser',['ngRoute','ui.bootstrap']).
 config(['$routeProvider',function($routeProvider){
-	$routeProvider.when('/validateuser',{
+	$routeProvider.when('/validate',{
 		templateUrl: 'pages/validateuser.html'
 	});
 }]).controller('validateuserCtrl',['$rootScope','$scope','$http','$location',function($rootScope,$scope,$http,$location){

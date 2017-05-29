@@ -11,24 +11,13 @@ angular.module('myApp', [
   'myApp.editpost',
   'myApp.validateuser',
   'myApp.profile',
-  'myApp.trending'
+  'myApp.trending',
+  'myApp.topten'
 ]).
 config(['$routeProvider', function($routeProvider) {
 	
-	$routeProvider.when("/readpostbyid",{
-		redirectTo: '/readpost'
-	}).when("/writeNewPost",{
-		redirectTo: '/writepost',
-	}).when("/editpostbyid",{
-		redirectTo: '/editpost',
-	}).when("/validate",{
-		redirectTo: '/validateuser',
-	}).when("/userprofile",{
-		redirectTo: '/profile',
-	}).when("/yetToCome",{
-		redirectTo: '/comingsoon',
-	}).when("/trending",{
-		redirectTo: '/trendingposts',
+	$routeProvider.when("/",{
+		redirectTo: '/home'
 	}).otherwise({
 		redirectTo: '/home'
 	});

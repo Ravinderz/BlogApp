@@ -1,20 +1,19 @@
 'use strict';
 
-angular.module('myApp.home',['ngRoute','ui.bootstrap']).
+angular.module('myApp.topten',['ngRoute','ui.bootstrap']).
 config(['$routeProvider',function($routeProvider){
-	$routeProvider.when('/home',{
-		templateUrl: 'home/home.html',
-		controller: 'homeCtrl'
+	$routeProvider.when('/topten',{
+		templateUrl: 'pages/topten.html',
+		controller: 'toptenCtrl'
 	});
 }]).
-controller('homeCtrl',['$rootScope','$scope','$http','$location',function($rootScope,$scope,$http,$location,loginService){
+controller('toptenCtrl',['$rootScope','$scope','$http','$location',function($rootScope,$scope,$http,$location,loginService){
 
 	var addr = $location.absUrl().split('/');
 	
 
-	 $scope.posts = {};
-	 $scope.recentPosts = {};
-	 $scope.trendingPosts = {};
+
+	 $scope.topTenPosts = {};
 	 $rootScope.webAddr = addr[0]+"//"+addr[1]+addr[2];
 	 $rootScope.isLogged = false;
 	 $rootScope.user = {};
@@ -25,37 +24,15 @@ controller('homeCtrl',['$rootScope','$scope','$http','$location',function($rootS
 		 $rootScope.isLogged = true;
 		 $rootScope.user = angular.fromJson(sessionStorage.getItem("user"));
 	 }
-
-	 $http({
-			method: "GET",
-			url : $rootScope.webAddr+"/api/v1.0/post/getAllPosts",
-			header:{
-				'Content-Type':'application/json'
-			}
-		}).then(function(response){
-			$scope.posts = response.data;
-			console.log(response.data);
-		});
-		
-	 $http({
-			method: "GET",
-			url : $rootScope.webAddr+"/api/v1.0/post/getRecentTenPost",
-			header:{
-				'Content-Type':'application/json'
-			}
-		}).then(function(response){
-			$scope.recentPosts = response.data;
-			console.log(response.data);
-		});	
-
+	
 	$http({
 			method: "GET",
-			url : $rootScope.webAddr+"/api/v1.0/post/getTopTenTrendingPosts",
+			url : $rootScope.webAddr+"/api/v1.0/post/getTopTenPosts",
 			header:{
 				'Content-Type':'application/json'
 			}
 		}).then(function(response){
-			$scope.trendingPosts = response.data;
+			$scope.topTenPosts = response.data;
 			console.log(response.data);
 		});		
 		

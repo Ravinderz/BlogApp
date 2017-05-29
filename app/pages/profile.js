@@ -34,7 +34,7 @@ config(['$routeProvider',function($routeProvider){
 	$scope.editPost = function(id){
 		var postId = id;
 		console.log("postid",postId);
-		$location.path('/editpostbyid').search({pid:postId});
+		$location.path('/editpost').search({pid:postId});
 	}	
 
 	$scope.showConfirm = function(ev,postId,key) {
